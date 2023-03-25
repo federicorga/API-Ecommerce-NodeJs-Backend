@@ -19,6 +19,11 @@ productManager.addProducts("Los Piojos", "Banda de Rock", 190, "img", 10, "code1
 
 
 
+//code repetido y con vacios
+
+productManager.addProducts("Los Piojos", undefined, 190, "img", 10, "code123");
+
+
 //muestra la lista de productos
 console.log(productManager.getProducts());
 

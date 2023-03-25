@@ -26,18 +26,19 @@ class ProductManager {
         const ProductoVacio = this.esProductoVacio(product); //true o false
         const CodeRepetido = this.esCodeRepetido(this.getProducts(), code); //true o false
 
-        if (!ProductoVacio && !CodeRepetido) {
+        if (ProductoVacio || CodeRepetido) {
 
-            this.generarId(this.getProducts(), product);
-
-            this.products.push(product);
-    
-            console.log("producto agregado a la lista");
-            return;
+            return console.log("producto no agregado");
 
         }
 
-        return console.log("producto no agregado");
+        
+        this.generarId(this.getProducts(), product);
+
+        this.products.push(product);
+
+        console.log("producto agregado a la lista");
+        return;
 
 
        

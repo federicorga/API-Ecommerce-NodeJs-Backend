@@ -1,0 +1,29 @@
+[
+	{
+		"title": "ROCKMODIFICADO",
+		"description": "cualquiera21",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 24,
+		"stock": 40,
+		"id": 1
+	},
+	{
+		"title": "rock5",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 33,
+		"stock": 10,
+		"id": 3
+	},
+	{
+		"title": "rock5",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 29,
+		"stock": 10,
+		"id": 4
+	}
+]

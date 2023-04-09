@@ -1,9 +1,9 @@
 import ProductManager from "./manager/productManager.js";
 
-//-----------Ejecucíon
 
 
-const manager = new ProductManager('./files/Productos.json');
+
+const manager = new ProductManager('./src/json/productos.json');
 
 
 const env = async () => {
@@ -46,6 +46,7 @@ const env = async () => {
 
 }
 
+//-----------Ejecucíon
 
 env();
 

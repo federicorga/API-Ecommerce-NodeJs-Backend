@@ -33,11 +33,10 @@ app.get('/products', async(req, res) =>{
 app.get('/products/:pid', async(req, res) =>{
     const productId= Number(req.params.pid);
     console.log(productId)
-    const product= await manager.getProductById(productId)
-    res.send(product);
+    const product= await manager.getProductById(productId);
+    
+    product? res.send(product):res.send("Producto no encontrado");
 })
-
-
 
 
 

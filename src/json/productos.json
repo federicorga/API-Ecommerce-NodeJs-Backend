@@ -4,7 +4,7 @@
 		"description": "cualquiera21",
 		"price": "$200",
 		"thumbnail": "img",
-		"code": 24,
+		"code": 123,
 		"stock": 40,
 		"id": 1
 	},
@@ -13,9 +13,72 @@
 		"description": "cualquiera",
 		"price": "$200",
 		"thumbnail": "img",
-		"code": 33,
+		"code": 127,
 		"stock": 10,
 		"id": 3
+	},
+	{
+		"title": "rock6",
+		"description": "cualquiera21",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 128,
+		"stock": 10,
+		"id": 4
+	},
+	{
+		"title": "rock7",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 129,
+		"stock": 10,
+		"id": 5
+	},
+	{
+		"title": "rock8",
+		"description": "cualquiera21",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 130,
+		"stock": 10,
+		"id": 6
+	},
+	{
+		"title": "rock9",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 131,
+		"stock": 10,
+		"id": 7
+	},
+	{
+		"title": "rock10",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 132,
+		"stock": 10,
+		"id": 8
+	},
+	{
+		"title": "rock11",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 133,
+		"stock": 10,
+		"id": 9
+	},
+	{
+		"title": "rock12",
+		"description": "cualquiera",
+		"price": "$200",
+		"thumbnail": "img",
+		"code": 134,
+		"stock": 10,
+		"id": 10
 	},
 	{
 		"title": "rock5",
@@ -24,6 +87,6 @@
 		"thumbnail": "img",
 		"code": 29,
 		"stock": 10,
-		"id": 4
+		"id": 11
 	}
 ]

@@ -13,12 +13,18 @@ const env = async () => {
   console.log(products); // ARRAY VACIO
 
 
-  await manager.addProducts("rock", "cualquiera21", 200, "img", 24, 10);
-  await manager.addProducts("rock2", "cualquiera", 200, "img", 21, 10);
-  await manager.addProducts("rock3", "cualquiera", "img"); // NO SE AGREGA POR FALTA DE DATOS
-  await manager.addProducts("rock4", "cualquiera", 200, "img", 24, 10); // NO SE AGREGA POR CODE REPETIDO
-  await manager.addProducts("rock5", "cualquiera", 200, "img", 33, 10);
-
+  await manager.addProducts("rock", "cualquiera21", 200, "img", 123, 10);
+  await manager.addProducts("rock2", "cualquiera", 200, "img", 124, 10);
+  await manager.addProducts("rock3", "cualquiera", 200, "img"); // NO SE AGREGA POR FALTA DE DATOS
+  await manager.addProducts("rock4", "cualquiera", 200, "img", 124, 10); // NO SE AGREGA POR CODE REPETIDO
+  await manager.addProducts("rock5", "cualquiera", 200, "img", 127, 10);
+  await manager.addProducts("rock6", "cualquiera21", 200, "img", 128, 10);
+  await manager.addProducts("rock7", "cualquiera", 200, "img", 129, 10);
+  await manager.addProducts("rock8", "cualquiera21", 200, "img", 130, 10);
+  await manager.addProducts("rock9", "cualquiera", 200, "img", 131, 10);
+  await manager.addProducts("rock10", "cualquiera", 200, "img", 132, 10);
+  await manager.addProducts("rock11", "cualquiera", 200, "img", 133, 10);
+  await manager.addProducts("rock12", "cualquiera", 200, "img", 134, 10);
 
   const readProducts = await manager.getProducts();
 

@@ -152,9 +152,7 @@ export default class ProductManager {
 
     }
 
-
     //--------------Herramientas de Verificacíon
-
     esProductoVacio = (product) => { //se verifica si alguna de las propiedades esta vacia.
         const soloValores = Object.values(product); //Retorna los valores
         const esValorIndefinido = soloValores.includes(undefined); //Verifica si se incluye undefined
@@ -171,9 +169,7 @@ export default class ProductManager {
 
         return false; //no esta vacio
 
-
     }
-
     esCodeRepetido = (product, code) => { // Verifica si el codigo se repite.
 
         const codeExiste = product.find(product => product.code === code);
@@ -205,7 +201,6 @@ export default class ProductManager {
         return true;
 
     }
-
 
 };
 

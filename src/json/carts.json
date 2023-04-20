@@ -7,7 +7,7 @@
 			},
 			{
 				"product": 2,
-				"quantity": 2
+				"quantity": 3
 			}
 		],
 		"id": 1
@@ -17,6 +17,10 @@
 			{
 				"product": 1,
 				"quantity": 3
+			},
+			{
+				"product": 2,
+				"quantity": 1
 			}
 		],
 		"id": 2

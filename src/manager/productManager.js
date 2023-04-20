@@ -102,7 +102,8 @@ export default class ProductManager {
 
             if (producto === undefined) {
 
-                return console.log('producto no encontrado!')
+                console.log('producto no encontrado!');
+                return false;
 
             }
 

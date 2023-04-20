@@ -40,7 +40,7 @@ export default class CartManager {
             await this.generarIdCart(carts, cart) //Genera la id de Cart
             carts.push(cart);
             await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
-            return "Carrito Creado";
+            return {status:'success', cart};
 
         } catch (error) {
 
@@ -53,24 +53,29 @@ export default class CartManager {
 
         const carts = await this.getCarts();
         const productById = await productManager.getProductById(productId);
+        const cartByid = await this.getCartById(cartId);
+
+        if(cartByid.id===cartId && productById.id === productId){
         carts.forEach((cart) => {
-            if (cart.id === cartId && productById.id === productId) {
-
                 let isInCart = cart.products.find((item) => item.product === productId)
-
                 if (isInCart) {
                     cart.products.forEach(item => {
                         if (item.product === productId) item.quantity++;
                         return item;
-
                     });
 
                 } else {
                     cart.products.push({ product: productById.id, quantity: 1 });
                 }
-            }
+            
         });
+    
         await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
+        return {status:'success', result: "producto Agregado al carrito"};
+    }else{
+        return {error:'error', result: "No se pudo agregar el producto al carrito"};
+    }
+       
 
     }
     generarIdCart = (carts, cart) => {
@@ -93,7 +98,8 @@ export default class CartManager {
 
             if (cart === undefined) {
 
-                return console.log('Carrito no encontrado!')
+                console.log("carrito no encontrado");
+                return false;
 
             }
 

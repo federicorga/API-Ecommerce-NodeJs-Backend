@@ -1,8 +1,6 @@
 import ProductManager from "./manager/productManager.js";
 
 
-
-
 const manager = new ProductManager('./src/json/productos.json');
 
 

@@ -1,49 +1,23 @@
-import express, { query } from "express";
-import ProductManager from "./manager/productManager.js";
+import express from "express";
+import productsRouter from './routes/products.router.js'
+import cartRouter from './routes/cart.router.js'
+import __dirname from "./utils.js";
 
 const app = express();
 
-const manager = new ProductManager('./src/json/productos.json');
+//Configuracion para Soporte 
 
+app.use(express.json()); // Permite soportar y recibir formatos JSOn
+app.use(express.urlencoded({extended: true})); //permite soportar rutas con codigos y caracteres especiales
 
-//localhost:8080/products
-//localhost:8080/products?limit=...
+// configuracion para uso de carpeta Public
+app.use(express.static(`${__dirname}/public`));
 
-app.get('/products', async(req, res) =>{
-    const products = await manager.getProducts();
-    const {limit}=req.query;
-    console.log(limit);
-    if(limit!==undefined){
-        let prod=[];
-        for (let i = 0; i < limit; i++) {
-            
-           if(products[i]!==undefined){
-            prod.push(products[i]);}
-           
-        }
+//Rutas Servicios
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartRouter);
 
-        return res.send(prod);
-    }
- 
-    res.send(products);
-})
-
-
-//localhost:8080/products/(number)
-app.get('/products/:pid', async(req, res) =>{
-    const productId= Number(req.params.pid);
-    console.log(productId)
-    const product= await manager.getProductById(productId);
-    
-    product? res.send(product):res.send("Producto no encontrado");
-})
-
-
-
-
-
-//Levantando Server
+//Server
 app.listen(8080, () => console.log('Listening on port 8080'));
 
 //En Terminal ---> node src/app.js Levantar Server
-//Cerrar Server con (CTRL + C)

@@ -51,23 +51,29 @@ export default class ProductManager {
 
             const checkEmpty=this.checkEmptyObject(product);
             
-          
+            console.log(checkLenght)
+            console.log(codeRepetido )
+            console.log(checkEmpty)
+            console.log(checkInvalidKey)
 
             console.log(product);
 
       
             if (checkLenght||codeRepetido || checkEmpty ||checkInvalidKey) {
-
+                 console.log("producto no agregado");
                 return "producto no agregado";
             }
+//-----------------------------------------------------------------------------------
+     
 
+         
             await this.generarId(products, product) //Genera la id
             
             products.push(product);
 
             await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
 
-    
+            console.log("producto agregado a la lista");
 
             return "producto agregado a la lista";
 
@@ -102,8 +108,7 @@ export default class ProductManager {
 
             if (producto === undefined) {
 
-                console.log('producto no encontrado!');
-                return false;
+                return console.log('producto no encontrado!')
 
             }
 
@@ -128,10 +133,11 @@ export default class ProductManager {
             if (this.comparaKeyObjetos(newParamsKey, productKey)) {
 
                 products = products.map(product => (product.id === id) ? { ...product, ...newParams } : product);
+                console.log(`producto Modificado`);
 
 
                 await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))
-                return " Producto modificado";
+                return "modificado";
             }
 
         } catch (error) {
@@ -148,11 +154,12 @@ export default class ProductManager {
             const indice = products.findIndex(product => product.id === id);
             if (indice !== -1) {
                 products.splice(indice, 1);
+                console.log("Producto eliminado de la lista")
                 await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
                 return "producto Eliminado de la Lista";
 
             } else {
-                return "el Id no coincide";
+                console.log("el id no coincide");
             }
 
         } catch (error) {
@@ -168,7 +175,7 @@ export default class ProductManager {
         //verifica si el largo del objeto pasado es el correcto.
         if(Object.keys(object).length <=8) return false; //el largo es el correcto.    
 
-        return true;
+        return true; //El largo supera lo correcto.
 
     }
 
@@ -181,7 +188,8 @@ export default class ProductManager {
             object[key]===false)
             return true; //el objeto posee elementos vacios o falsos.
         }
-        return false;
+
+        return false; //el objeto no posee elemento vacios o falsos.
     }
 
     checkInvalidKey=(object)=>{
@@ -189,6 +197,7 @@ export default class ProductManager {
        //El objeto pasado es comparado con valido(array).
         const validos =["title","description","code","price","status","stock","category","thumbnails"];
         const keyObject=Object.keys(object);
+
         const arrayKeys= [...new Set([...validos, ...keyObject])];
         for (let i = 0; i < arrayKeys.length; i++) {
             if(!validos.includes(arrayKeys[i])){
@@ -207,6 +216,7 @@ export default class ProductManager {
         //si los objetos tienen diferente key(clave) no son iguales.
         //objetoRef es nuevos parametros, objetoComp es al que se compara
         //compara objeto existente con objeto pasado
+
         for (let i = 0; i < objetoRef.length; i++) {
             const element = objetoRef[i];
 
@@ -215,6 +225,7 @@ export default class ProductManager {
                 return false;
             }
         }
+
         return true;
 
     }
@@ -222,13 +233,16 @@ export default class ProductManager {
     esCodeRepetido = async(code) => { 
         // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
         const products = await this.getProducts();
+
         const codeExiste = products.find(products => products.code === code);
+
+
         if (codeExiste) {
             console.log('error code se repite');
             return true; // se repite
         }
 
-        return false;
+        return false; // no se repite;
 
 
     }

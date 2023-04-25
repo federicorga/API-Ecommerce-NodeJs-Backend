@@ -108,5 +108,38 @@
 		"category": "rock",
 		"thumbnails": [],
 		"id": 10
+	},
+	{
+		"title": "Los tipitos",
+		"description": "Banda de rock Argentina",
+		"code": 1.2416123411232132e+21,
+		"price": "$1000",
+		"status": true,
+		"stock": 15,
+		"category": "rocffk",
+		"thumbnails": [],
+		"id": 11
+	},
+	{
+		"title": "Los tipitos",
+		"description": "Banda de rock Argentina",
+		"code": 1.2414461234112321e+23,
+		"price": "$1000",
+		"status": true,
+		"stock": 15,
+		"category": "rocffk",
+		"thumbnails": [],
+		"id": 12
+	},
+	{
+		"title": "Los tipitos",
+		"description": "Banda de rock Argentina",
+		"code": 124144612111622,
+		"price": "$1000",
+		"status": true,
+		"stock": 15,
+		"category": "rocffk",
+		"thumbnails": [],
+		"id": 13
 	}
 ]

@@ -5,7 +5,7 @@ import ProductManager from '../manager/productManager.js';
 const router=Router();
 
 
-const manager = new ProductManager('./src/json/productos.json');
+const manager = new ProductManager('./src/json/productos.json'); //instancia de la clase ProductManager
 
 
 //localhost:8080/api/products
@@ -14,9 +14,11 @@ const manager = new ProductManager('./src/json/productos.json');
 router.get('/', async(req, res) =>{
     const products = await manager.getProducts();
     const {limit}=req.query;
+    console.log(limit);
     if(limit!==undefined){
         let prod=[];
         for (let i = 0; i < limit; i++) {
+            
            if(products[i]!==undefined){
             prod.push(products[i]);}
            
@@ -32,7 +34,9 @@ router.get('/', async(req, res) =>{
 //localhost:8080/api/products/(number)
 router.get('/:pid', async(req, res) =>{
     const productId= Number(req.params.pid);
+    console.log(productId)
     const product= await manager.getProductById(productId);
+    
     product? res.send(product):res.send("Producto no encontrado");
 });
 
@@ -40,7 +44,9 @@ router.get('/:pid', async(req, res) =>{
 //CREATED desde Body / Raw
 router.post('/',async (req,res)=>{
     const producte = await req.body;
+
     const result = await manager.addProducts(producte);
+ 
         return res.send({status:'success', result:`${result}`});
     
 
@@ -49,15 +55,23 @@ router.post('/',async (req,res)=>{
 
 router.delete('/:pid', async(req, res) =>{
     const productId= Number(req.params.pid);
+    console.log(productId)
     const product= await manager.getProductById(productId);
+    
     product? res.send(await manager.deleteProduct(productId)):res.send("Producto no encontrado");
+
+    
 });
 
 router.put('/:pid', async(req, res) =>{
 
     const productId= Number(req.params.pid);
+    console.log(productId);
     const newProduct = await req.body;
+    console.log(newProduct);
     const result = await manager.updateProduct(productId,newProduct);
+
+    
     res.send({status: 'success', result:`${result}`});
 
 });

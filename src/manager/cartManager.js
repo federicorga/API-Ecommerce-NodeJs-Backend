@@ -4,11 +4,13 @@ import ProductManager from '../manager/productManager.js';
 
 const productManager = new ProductManager('./src/json/productos.json');
 
-export default class CartManager {
+export default class CartManager{
 
-    constructor(path) {
+    constructor(path){
         this.path = path;
     }
+
+
     getCarts = async () => {
 
         try {
@@ -31,16 +33,22 @@ export default class CartManager {
     addNewCart = async () => {
 
         try {
-
+           
             const carts = await this.getCarts();
+
+         const cart={
+            products:[]
+         }
+         
+            await this.generarIdCart(carts, cart) //Genera la id
             
-            const cart = {
-                products: []
-            }
-            await this.generarIdCart(carts, cart) //Genera la id de Cart
             carts.push(cart);
-            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
-            return {status:'success', cart};
+
+            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'))
+
+            console.log("Carrito generado");
+
+            return "Carrito Creado";
 
         } catch (error) {
 
@@ -49,35 +57,40 @@ export default class CartManager {
 
     }
 
-    addProductInCart = async (cartId, productId) => {
+    addProductInCart=async(cartId,productId)=>{
 
         const carts = await this.getCarts();
-        const productById = await productManager.getProductById(productId);
-        const cartByid = await this.getCartById(cartId);
-
-        if(cartByid.id===cartId && productById.id === productId){
-        carts.forEach((cart) => {
-                let isInCart = cart.products.find((item) => item.product === productId)
-                if (isInCart) {
-                    cart.products.forEach(item => {
-                        if (item.product === productId) item.quantity++;
-                        return item;
-                    });
-
-                } else {
-                    cart.products.push({ product: productById.id, quantity: 1 });
-                }
+        const productById = await productManager.getProductById(productId); 
+        carts.forEach((cart)=>{
+        if(cart.id === cartId && productById.id===productId){
             
-        });
-    
-        await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
-        return {status:'success', result: "producto Agregado al carrito"};
-    }else{
-        return {error:'error', result: "No se pudo agregar el producto al carrito"};
-    }
-       
+            let isInCart=cart.products.find((item)=>item.product===productId)
 
-    }
+            if(isInCart){
+                cart.products.forEach(item => {
+                    if(item.product===productId)item.quantity++;
+                    return item;
+                  
+                });
+
+            }else{
+                cart.products.push({product:productById.id, quantity:1});
+            }
+            }
+        });
+                await fs.promises.writeFile(this.path, JSON.stringify(carts, null, '\t'));
+
+            }
+   
+
+
+
+        
+
+
+    
+
+
     generarIdCart = (carts, cart) => {
 
         if (carts.length === 0) {
@@ -98,8 +111,7 @@ export default class CartManager {
 
             if (cart === undefined) {
 
-                console.log("carrito no encontrado");
-                return false;
+                return console.log('Carrito no encontrado!')
 
             }
 

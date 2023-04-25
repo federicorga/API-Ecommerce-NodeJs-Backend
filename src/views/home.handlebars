@@ -1,0 +1,35 @@
+<div>
+    <h1> LISTA SIN Socket.io</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Code</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <th>{{this.title}}</th>
+                <th>{{this.description}}</th>
+                <th>{{this.code}}</th>
+                <th>{{this.price}}</th>
+                <th>{{this.status}}</th>
+                <th>{{this.stock}}</th>
+                <th>{{this.category}}</th>
+                <th>{{this.id}}</th>
+            </tr>
+            {{/each}}
+        <tbody>
+            <tr>
+
+        </tbody>
+    </table>
+</div>
+

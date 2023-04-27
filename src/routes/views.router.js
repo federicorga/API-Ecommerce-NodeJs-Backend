@@ -15,7 +15,6 @@ router.get('/', async(req,res)=>{
     res.render('home', {products} );
 })
 
-export default router;
 
 
 router.get('/realtimeproducts',async (req,res)=>{
@@ -23,5 +22,8 @@ router.get('/realtimeproducts',async (req,res)=>{
     res.render('realTimeProducts',{products});
    
 
-})
+});
+
+
+export default router;
 

@@ -35,3 +35,26 @@ th {
 td {
     text-align: center;
 }
+
+
+.formul{
+    width: 50%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+   
+}
+
+label{
+    color: black;
+    font-weight:900;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.btnEnviar{
+    margin-top: 10px;
+    align-items: center;
+}

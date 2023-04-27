@@ -29,7 +29,7 @@ app.use(express.static(`${__dirname}/public`)); //usamos la carpeta public de ma
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api/views',viewsRouter)
+app.use('/views',viewsRouter)
 
 //Levantando Server con Socket.io
 
@@ -40,23 +40,7 @@ const socketServer= new Server(httpServer); //server Socket.io
 
 //handshake ( saludo de manos, servidor ligado).
 socketServer.on('connection', async socket=>{
-    console.log("Nuevo cliente conectado") //cuando abro una nueva pestaña del navegador deberia mostrarse lo que esta dentro de esta conexion.
-    socket.on('message', data=>{ //lee el evento del frontend llamado mensaje y lo muestra.
-        console.log(data)
-    });
-
-    socket.emit('evento_socket_individual', 'Este mensaje solo debe recibir el socket'); //enviar mensaje al frontend individual
-    // es decir que envia le mensaje al cliente actual que se este conectando en este momento.
-
-    //nueva forma enviar info a todos los usuarios conectados menos al usuario que se conecta, el ejemplo es un chat.
-
-    socket.broadcast.emit('evento_todos_menos_actual', 'Lo veran todos los clientes menos el actual'); //es decir que lo ven los ya conectados
-    
-    socketServer.emit('evento_todos', 'lo recibiran todos los clientes') // ejemplo enviar a chat grupal un mensaje. tanto a los conectados y a los que se conectan nuevos.
-    // no se usa socket se usa el evento en general es decir la constante en general.
-
-    //en el frontend no podemos tenera esta forma de emitir estos mensajes ya que es un unico servidor y no multiples lo que si hay es multiples
-    //clientes, porque todos los request van a un mismo servidor que va a estar procesando esta informacion.
+    console.log("Nuevo cliente conectado")
 
     const productManager = new ProductManager('./src/json/productos.json')
 
@@ -66,9 +50,8 @@ socketServer.on('connection', async socket=>{
 });
 
 
-
-
 //En Terminal ---> node src/app.js Levantar Server
+//En Terminal ---> nodemon src/app.js Levantar Server para Soket.io
 //Cerrar Server con (CTRL + C)
 
 //CREATE...POST

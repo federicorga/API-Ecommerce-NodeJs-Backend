@@ -30,7 +30,7 @@ router.post('/:cid/product/:pid', async(req,res)=>{
     const cartId = Number(req.params.cid);
     const productId = Number(req.params.pid);
     const result = await cartManager.addProductInCart(cartId,productId);
-    return res.send({status:'success', result:`${result}`});
+    return res.send(result);
 })
 
 

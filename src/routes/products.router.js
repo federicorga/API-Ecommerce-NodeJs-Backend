@@ -55,10 +55,8 @@ router.post('/',async (req,res)=>{
 
 router.delete('/:pid', async(req, res) =>{
     const productId= Number(req.params.pid);
-    console.log(productId)
     const product= await manager.getProductById(productId);
-    
-    product? res.send(await manager.deleteProduct(productId)):res.send("Producto no encontrado");
+    product? res.send({result:await manager.deleteProduct(productId)}):res.send({error:"Producto no encontrado"});
 
     
 });
@@ -75,9 +73,6 @@ router.put('/:pid', async(req, res) =>{
     res.send({status: 'success', result:`${result}`});
 
 });
-
-
-
 
 
 export default router;

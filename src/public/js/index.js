@@ -2,6 +2,26 @@
 
 const socket = io(); //import de la dependencia <script src="/socket.io/socket.io.js"></script> en index.handlebars
 
+console.log("HOLA MUNDO"); //escribe en la consola de mi navegador,
+
+//enviar mensaje al servidor desde el cliente
+socket.emit('message', "hola, es un mensaje desde el Frontend cliente");
+
+//escuchar mensaje individual del servidor
+
+socket.on('evento_socket_individual', data=>{ //recibimos evento del servidor que solo lo ven los nuevos usuarios y lo mostramos en consola.
+    console.log(data);
+});
+
+socket.on('evento_todos_menos_actual', data=>{ //recibimos un evento del servidor que solo ven los usuarios conectados y mostramos en consola.
+    console.log(data);})
+
+socket.on('evento_todos', data=>{ //recibimos un evento del servidor que lo ven todos los clientes.
+        console.log(data);
+});
+
+
+
 socket.on('real_time_products', data => {
 
     console.log(data);
@@ -24,7 +44,7 @@ formRealTime.addEventListener('submit',async (e)=>{
     const formData = new FormData(formRealTime);
  
 
-    await sendDataForm(formData);
+    await enviarDatos(formData);
 
 });
 
@@ -53,14 +73,15 @@ function renderTable (prod,container){
       
         const btnDelete = document.getElementById(`btnResta${prod.id}`);        
         btnDelete.addEventListener("click", async() => {
-            await sendID(prod.id)
+            await enviarID(prod.id)
+            
             
           });
     }
 
 
 
-  async function sendDataForm(formData) {
+  async function enviarDatos(formData) {
     const url = '/api/products';
     const formObj = Object.fromEntries(formData.entries()); 
     const opciones = {
@@ -78,16 +99,15 @@ function renderTable (prod,container){
     }
 }
 
-async function sendID(id){
+async function enviarID(id){
     const url = `/api/products/${id}`;
     const opciones ={
-        method: 'DELETE'
+        method: 'DELETE',
     }
 
     try{
         const respuesta= await fetch(url,opciones);
         const datosRespuesta= await respuesta.json();
-        console.log("esta es la respuesta:")
         console.log(datosRespuesta);
     }catch(error){
         console.error(error);

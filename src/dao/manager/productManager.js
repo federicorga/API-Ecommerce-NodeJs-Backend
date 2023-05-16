@@ -36,6 +36,7 @@ export default class ProductManager {
             const codeRepetido = await this.esCodeRepetido(product.code);
             const checkInvalidKey=this.checkInvalidKey(product); 
             
+            console.log(product);
 
             product ={
                 title:product.title,
@@ -50,14 +51,22 @@ export default class ProductManager {
 
             const checkEmpty=this.checkEmptyObject(product);
             
+            console.log(checkLenght)
+            console.log(codeRepetido )
+            console.log(checkEmpty)
+            console.log(checkInvalidKey)
+
             console.log(product);
 
       
             if (checkLenght||codeRepetido || checkEmpty ||checkInvalidKey) {
                  console.log("producto no agregado");
                 return "producto no agregado";
-            }  
+            }
+//-----------------------------------------------------------------------------------
+     
 
+         
             await this.generarId(products, product) //Genera la id
             
             products.push(product);
@@ -147,12 +156,10 @@ export default class ProductManager {
                 products.splice(indice, 1);
                 console.log("Producto eliminado de la lista")
                 await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'));
-
-                return `Producto eliminado de la Lista`;
+                return "producto Eliminado de la Lista";
 
             } else {
                 console.log("el id no coincide");
-                return "El id no coincide"
             }
 
         } catch (error) {

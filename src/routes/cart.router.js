@@ -1,15 +1,18 @@
 //CARRITO
 import { Router } from 'express';
-import CartManager from '../manager/cartManager.js';
+import CartManager from '../dao/dbManagers/carts.manager.js';
 
 
 
 const router = Router();
 
-const cartManager = new CartManager('./src/json/carts.json');
+const cartManager = new CartManager();
 
 
-
+router.get('/',async(req,res)=>{
+    const result= await cartManager.getCarts();
+    return res.send({status: 'success', result: result})
+})
 
 router.post('/',async (req,res)=>{
     const result = await cartManager.addNewCart();
@@ -19,7 +22,7 @@ router.post('/',async (req,res)=>{
 });
 
 router.get('/:cid', async(req,res)=>{
-    const cartId= Number(req.params.cid);
+    const cartId= req.params.cid;
     const cart= await cartManager.getCartById(cartId);
     
     cart? res.send(cart):res.send("Producto no encontrado");
@@ -27,8 +30,8 @@ router.get('/:cid', async(req,res)=>{
 })
 
 router.post('/:cid/product/:pid', async(req,res)=>{
-    const cartId = Number(req.params.cid);
-    const productId = Number(req.params.pid);
+    const cartId = req.params.cid;
+    const productId = req.params.pid;
     const result = await cartManager.addProductInCart(cartId,productId);
     return res.send(result);
 })

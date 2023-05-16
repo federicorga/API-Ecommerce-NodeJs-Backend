@@ -1,5 +1,5 @@
 h1{
-    color: red;
+    color: rgb(0, 0, 0);
 }
 
 
@@ -58,3 +58,98 @@ label{
     margin-top: 10px;
     align-items: center;
 }
+
+
+.chatBox{
+    width: 200px;
+    position: relative;
+    top: 5.4rem;
+    border-image: linear-gradient( to bottom, #777777, rgb(125 125 125) ) 1;
+    color: #a29586;
+    background-color: #27272a;
+  
+  
+  }
+
+  .messageP{
+  
+    top: 4rem;
+    position: relative;
+    width: 19rem;
+    height: 15rem;
+    margin: 0;
+    padding: 0.3rem;
+    color: #ae9e8e;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: #27272a;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient( to bottom, #777777, rgb(125 125 125) ) 1;
+
+}
+
+.messageP::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+   
+
+}
+
+/* Track */
+.messageP::-webkit-scrollbar-track {
+    border-radius: 10px;
+    border: 1px solid #5c5d5c;
+    border-radius: 1rem;
+  }
+
+
+   
+  /* Handle */
+  .messageP::-webkit-scrollbar-thumb {
+    margin: 5px;
+    padding: 5px;
+    background: #403e3e;
+    width: 1px;
+    border-radius: 20%;
+  }
+  
+  /* Handle on hover */
+  .messageP::-webkit-scrollbar-thumb:hover {
+    background: #5c5d5c; 
+  }
+
+  .messageP::-webkit-scrollbar-arrow {
+    background-color: #ccc;
+  }
+
+  .btnChatBox{
+    position: absolute;
+    z-index: 11;
+    width: 1.2rem;
+    top: 26.2rem;
+    left: 14.5rem;
+    filter: invert(50%);
+  }
+
+  .btnChatBox:hover{
+    filter: invert(100%);
+  }
+
+  .btnChatBox:active{
+    transform: scale(0.7);
+    transition: 0.2s;
+  }
+
+  .divCabezaChat{
+    display: flex;
+    margin-bottom: 5px;
+  }
+
+  .divChat{
+    height: auto;
+    /* display: flex; */
+    /* flex-direction: column; */
+    margin: 0;
+
+  }

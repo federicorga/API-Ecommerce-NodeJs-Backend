@@ -5,7 +5,11 @@ import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from "./utils.js";
-import ProductManager from './manager/productManager.js';
+import ProductManager from './dao/manager/productManager.js';
+import ProductsManagerDB from './dao/dbManagers/products.manager.js';
+import mongoose from 'mongoose'; //conexion a base de datos 
+import userRouter from './routes/user.router.js';
+import MessagesManager from './dao/dbManagers/messages.manager.js';
 
 
 const app = express();
@@ -29,7 +33,20 @@ app.use(express.static(`${__dirname}/public`)); //usamos la carpeta public de ma
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
-app.use('/views',viewsRouter)
+app.use('/views',viewsRouter);
+app.use('/api/users',userRouter);
+
+
+//Conexion a la Base de datos de mongoos Atlas
+
+try {
+    await mongoose.connect('mongodb+srv://fedeex22:Mongo1234568@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority');
+    console.log('DB Mongoose Connected')
+} catch (error) {
+
+    console.log(error)
+    
+}
 
 //Levantando Server con Socket.io
 
@@ -40,14 +57,52 @@ const socketServer= new Server(httpServer); //server Socket.io
 
 //handshake ( saludo de manos, servidor ligado).
 socketServer.on('connection', async socket=>{
-    console.log("Nuevo cliente conectado")
+    console.log("Nuevo cliente conectado") //cuando abro una nueva pestaña del navegador deberia mostrarse lo que esta dentro de esta conexion.
+    socket.on('message', data=>{ //lee el evento del frontend llamado mensaje y lo muestra.
+        console.log(data)
+    });
 
-    const productManager = new ProductManager('./src/json/productos.json')
+    socket.emit('evento_socket_individual', 'Este mensaje solo debe recibir el socket'); //enviar mensaje al frontend individual
+    // es decir que envia le mensaje al cliente actual que se este conectando en este momento.
+
+    //nueva forma enviar info a todos los usuarios conectados menos al usuario que se conecta, el ejemplo es un chat.
+
+    socket.broadcast.emit('evento_todos_menos_actual', 'Lo veran todos los clientes menos el actual'); //es decir que lo ven los ya conectados
+    
+    socketServer.emit('evento_todos', 'lo recibiran todos los clientes') // ejemplo enviar a chat grupal un mensaje. tanto a los conectados y a los que se conectan nuevos.
+    // no se usa socket se usa el evento en general es decir la constante en general.
+
+    //en el frontend no podemos tenera esta forma de emitir estos mensajes ya que es un unico servidor y no multiples lo que si hay es multiples
+    //clientes, porque todos los request van a un mismo servidor que va a estar procesando esta informacion.
+
+
+
+    const productManager = new ProductsManagerDB()
 
     const products=await productManager.getProducts()
 
     socketServer.emit('real_time_products', {products:products});
+
+    const messageManager=new MessagesManager();
+
+    
+
+    socket.on('message',async (data)=>{ //recibo mensaje de usuario recibo datos por eso data
+         await messageManager.save(data)//guardo esos mensajes datos en el array
+
+         let messages= await messageManager.getAll();
+
+        socket.emit('messageLogs', messages); // envio un mensajea todos mis usuarios con el array modificado con los mensajes
+    })
+
+    socket.on('authenticated',async(data)=>{
+        let messages= await messageManager.getAll();
+        socket.emit('messageLogs',messages); //socket emit se envia al usuairo que se acaba de conectar.
+        socket.broadcast.emit('newUserConnect',data); //enviamos a todos los usuarios menos al que se acaba de conectar, la conexion del nuevo usuario.
+    })
 });
+
+
 
 
 //En Terminal ---> node src/app.js Levantar Server

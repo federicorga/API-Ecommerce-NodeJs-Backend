@@ -92,7 +92,7 @@ socketServer.on('connection', async socket=>{
 
          let messages= await messageManager.getAll();
 
-        socket.emit('messageLogs', messages); // envio un mensajea todos mis usuarios con el array modificado con los mensajes
+         socketServer.emit('messageLogs', messages); // envio un mensajea todos mis usuarios con el array modificado con los mensajes
     })
 
     socket.on('authenticated',async(data)=>{

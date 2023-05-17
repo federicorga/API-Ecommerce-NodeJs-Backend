@@ -11,7 +11,7 @@ const btnEnviar=document.getElementById('btnChatBox');
 const log = document.getElementById('messageLogs'); //esta es la etiqueta p donde se van a mostrar los mensajes
 
 Swal.fire({ // al usar el then es como una promesa
-    title:'Chat-Eommerce',
+    title:'Chat-Ecommerce',
     input:'text',
     text:'ingresa el usuario para identificarte',
     inputValidator: (value)=>{
@@ -53,23 +53,20 @@ btnEnviar.addEventListener("click",chatFuncion);
 
 socket.on('messageLogs', async(data)=>{ //los usuarios reciben (escuchan) al servidor
 
-let messag = '';
+let messageHTML = '';
 
    await data.forEach(message => {
         
-       messag +=`
-        <section class="seccionMensaje">
-            <div class="divCabezaChat">
-                <p class="pUserFecha">${message.fechaActual} -<p class="pUser">${message.user}</p>
-            </div>
-            <div class="divChat">
+       messageHTML +=`
+        <span class="seccionMensaje">
+                <p class="pUser">${message.user}</p>
                 <p class="pMensaje">${message.message}</p>
-            <div>
-        </section>`
+          
+        </span>`
 
     });
 
-    log.innerHTML=messag;
+    log.innerHTML=messageHTML;
 
     if(log.scrollTop!==0){
         log.scrollTop = log.scrollHeight;

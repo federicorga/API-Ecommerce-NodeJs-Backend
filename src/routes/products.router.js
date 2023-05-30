@@ -13,29 +13,16 @@ const manager = new ProductsManager(); //instancia de la clase ProductManager
 
 router.get('/', async(req, res) =>{
         try{
-    const products = await manager.getProducts();
-    const {limit}=req.query;
-    console.log(limit);
-    if(limit!==undefined){
-        let prod=[];
-        for (let i = 0; i < limit; i++) {
-            
-           if(products[i]!==undefined){
-            prod.push(products[i]);}
-           
-        }
-
-        return res.send(prod);
-    }
+    const {limit,sort,page,query}=req.query;
     
- 
-    res.send(products);
+    const respound = await manager.getProductsOrganized(limit,page,query,sort);
+  
+    return res.send(respound);
     
     } catch (error) {
         res.send(500).send({status:'error',error});
-        
-    }
-    
+        }
+
 });
 
 
@@ -51,7 +38,7 @@ router.get('/:pid', async(req, res) =>{
 
 //CREATED desde Body / Raw
 router.post('/',async (req,res)=>{
-    const producte = await req.body;
+    const producte = req.body;
     const result = await manager.addProducts(producte);
         return res.send({status:'success', result:`${result}`});
     

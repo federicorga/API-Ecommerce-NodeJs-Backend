@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const productCollection= 'products'
 
@@ -16,9 +16,11 @@ category:product.category,
 thumbnails:product.thumbnails??[]*/
 
 
-const productSchema =new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro.
+const productSchema =new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro. Shcema es esquema
     title: {type:String,
-    required:true},
+    required:true,
+    index: true //asi se agrega un indice, se puede verificar en MongosDB index
+},
     description: {type:String},
     code: {
         type:String,
@@ -36,5 +38,7 @@ const productSchema =new mongoose.Schema({ //se genera un ID de forma automatica
     thumbnails:{type:Array,
     default:[]}
 });
+
+productSchema.plugin(mongoosePaginate); //le inyectamos la funcion de paginacion
 
 export const productModel=mongoose.model(productCollection,productSchema);

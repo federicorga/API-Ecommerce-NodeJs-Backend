@@ -1,5 +1,5 @@
 <div>
-    <h1> LISTA SIN Socket.io</h1>
+    <h1>LISTA DE PRODUCTOS</h1>
     <table>
         <thead>
             <tr>
@@ -11,25 +11,31 @@
                 <th>Stock</th>
                 <th>Category</th>
                 <th>ID</th>
+                <th>agregar al Carrito</th>
             </tr>
         </thead>
         <tbody>
             {{#each products}}
             <tr>
-                <th>{{this.title}}</th>
-                <th>{{this.description}}</th>
-                <th>{{this.code}}</th>
-                <th>{{this.price}}</th>
-                <th>{{this.status}}</th>
-                <th>{{this.stock}}</th>
-                <th>{{this.category}}</th>
-                <th>{{this.id}}</th>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this._id}}</td>
+                <td><input type="button" id="btnagregar{{this._id}}" value="Agregar al Carrito"></input></td>
             </tr>
             {{/each}}
-        <tbody>
-            <tr>
-
         </tbody>
     </table>
-</div>
 
+    {{#if hasPrevPage}}
+    <a href="/views?limit={{limit}}&page={{prevPage}}"><button>Anterior</button></a>
+    {{/if}}
+
+     {{#if hasNextPage}}
+    <a href="/views?limit={{limit}}&page={{nextPage}}"><button>Siguiente</button></a>
+    {{/if}}
+</div>

@@ -4,8 +4,8 @@ import {Server} from 'Socket.io';
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
 import viewsRouter from './routes/views.router.js';
-import __dirname from "./utils.js";
-import ProductManager from './dao/manager/productManager.js';
+import {__dirname, PORT, DB_USER, DB_PASS} from "./utils.js";
+//import ProductManager from './dao/manager/productManager.js';
 import ProductsManagerDB from './dao/dbManagers/products.manager.js';
 import mongoose from 'mongoose'; //conexion a base de datos 
 import userRouter from './routes/user.router.js';
@@ -40,7 +40,7 @@ app.use('/api/users',userRouter);
 //Conexion a la Base de datos de mongoos Atlas
 
 try {
-    await mongoose.connect('mongodb+srv://fedeex22:Mongo1234568@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority`);
     console.log('DB Mongoose Connected')
 } catch (error) {
 
@@ -50,7 +50,7 @@ try {
 
 //Levantando Server con Socket.io
 
-const httpServer= app.listen(8080, () => console.log('Server running on port 8080')); //Server http
+const httpServer= app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`)); //Server http
 
 const socketServer= new Server(httpServer); //server Socket.io
 

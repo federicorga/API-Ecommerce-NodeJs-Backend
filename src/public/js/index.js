@@ -64,17 +64,16 @@ function renderTable (prod,container){
             <th>${prod.status}</th>
             <th>${prod.stock}</th>
             <th>${prod.category}</th>
-            <th>${prod.id}</th>
-            <th><input type="button" id="btnResta${prod.id}" value="Eliminar"></input>
+            <th>${prod._id}</th>
+            <th><input type="button" id="btnResta${prod._id}" value="Eliminar"></input>
         `
 
         container.appendChild(tr);
 
       
-        const btnDelete = document.getElementById(`btnResta${prod.id}`);        
+        const btnDelete = document.getElementById(`btnResta${prod._id}`);        
         btnDelete.addEventListener("click", async() => {
-            await enviarID(prod.id)
-            
+            await enviarID(prod._id)
             
           });
     }
@@ -83,11 +82,11 @@ function renderTable (prod,container){
 
   async function enviarDatos(formData) {
     const url = '/api/products';
-    const formObj = Object.fromEntries(formData.entries()); 
+    const formObj = Object.fromEntries(formData.entries());  //Transforma la clave valor del forumlario en un objeto Javascript ya que lo que sale del formulario es un objeto del tipo FormData
     const opciones = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formObj)
+      headers: { 'Content-Type': 'application/json' }, // es un tipo MIME estándar utilizado para indicar que el contenido del mensaje o solicitud HTTP está en formato JSON.
+      body: JSON.stringify(formObj) //Transforma objeto a formato JSON
     };
     
     try {
@@ -113,3 +112,37 @@ async function enviarID(id){
         console.error(error);
     }
 }
+
+
+async function enviarDatosCart(cid,pid){
+
+const url=`/api/cart/:${cid}/product/:${pid}`;
+
+const opciones={
+    method:'POST'
+}
+try{
+    const respuesta= await fetch(url,opciones);
+    const datosRespuesta= await respuesta.json();
+    console.log(datosRespuesta);
+}catch(error){
+    console.error(error);
+}
+}
+
+
+
+
+
+async function addCart(){
+
+    const btnAddCart = document.getElementById(`btnagregar${this._id}`);        
+    btnAddCart.addEventListener("click", async() => {
+        await enviarDatosCart("646bd8f1a9e2cb824885cd40",_id)
+        
+      });
+}
+
+
+addCart();
+

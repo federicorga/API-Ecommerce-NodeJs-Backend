@@ -44,7 +44,7 @@ router.get('/products', async (req, res) => { //visualizar productos con paginac
 
 })
 
-router.get('/carts/:cid', async (req, res) => { //visualizar un carrito especifico
+router.get('/cart/:cid', async (req, res) => { //visualizar un carrito especifico
     let { cid } = req.params
     let { products, _id } = await cartManager.getCartByIdWithProduct(cid);
    

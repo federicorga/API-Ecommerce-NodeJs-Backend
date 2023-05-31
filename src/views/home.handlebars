@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             {{#each products}}
-            <tr>
+            <tr class="product">
                 <td>{{this.title}}</td>
                 <td>{{this.description}}</td>
                 <td>{{this.code}}</td>
@@ -25,17 +25,20 @@
                 <td>{{this.stock}}</td>
                 <td>{{this.category}}</td>
                 <td>{{this._id}}</td>
-                <td><input type="button" id="btnagregar{{this._id}}" value="Agregar al Carrito"></input></td>
+                <td><button type="button" data-id="{{this._id}}"  value="Agregar al Carrito" class="addToCart">Agregar al Carrito</button></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
 
     {{#if hasPrevPage}}
-    <a href="/views?limit={{limit}}&page={{prevPage}}"><button>Anterior</button></a>
+    <a href="/views/products?limit={{limit}}&page={{prevPage}}"><button>Anterior</button></a>
     {{/if}}
 
      {{#if hasNextPage}}
-    <a href="/views?limit={{limit}}&page={{nextPage}}"><button>Siguiente</button></a>
+    <a href="/views/products?limit={{limit}}&page={{nextPage}}"><button>Siguiente</button></a>
     {{/if}}
 </div>
+
+
+<script src="/js/helperProducts.js"></script> <!-- Archivo de la carpeta public es como poner href="localhost:8080...public/js/index.js"  -->

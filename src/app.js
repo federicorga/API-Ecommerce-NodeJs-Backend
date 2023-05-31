@@ -62,18 +62,6 @@ socketServer.on('connection', async socket=>{
         console.log(data)
     });
 
-    socket.emit('evento_socket_individual', 'Este mensaje solo debe recibir el socket'); //enviar mensaje al frontend individual
-    // es decir que envia le mensaje al cliente actual que se este conectando en este momento.
-
-    //nueva forma enviar info a todos los usuarios conectados menos al usuario que se conecta, el ejemplo es un chat.
-
-    socket.broadcast.emit('evento_todos_menos_actual', 'Lo veran todos los clientes menos el actual'); //es decir que lo ven los ya conectados
-    
-    socketServer.emit('evento_todos', 'lo recibiran todos los clientes') // ejemplo enviar a chat grupal un mensaje. tanto a los conectados y a los que se conectan nuevos.
-    // no se usa socket se usa el evento en general es decir la constante en general.
-
-    //en el frontend no podemos tenera esta forma de emitir estos mensajes ya que es un unico servidor y no multiples lo que si hay es multiples
-    //clientes, porque todos los request van a un mismo servidor que va a estar procesando esta informacion.
 
 
 
@@ -84,8 +72,6 @@ socketServer.on('connection', async socket=>{
     socketServer.emit('real_time_products', {products:products});
 
     const messageManager=new MessagesManager();
-
-    
 
     socket.on('message',async (data)=>{ //recibo mensaje de usuario recibo datos por eso data
          await messageManager.save(data)//guardo esos mensajes datos en el array

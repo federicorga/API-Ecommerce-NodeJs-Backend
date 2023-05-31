@@ -9,18 +9,6 @@ socket.emit('message', "hola, es un mensaje desde el Frontend cliente");
 
 //escuchar mensaje individual del servidor
 
-socket.on('evento_socket_individual', data=>{ //recibimos evento del servidor que solo lo ven los nuevos usuarios y lo mostramos en consola.
-    console.log(data);
-});
-
-socket.on('evento_todos_menos_actual', data=>{ //recibimos un evento del servidor que solo ven los usuarios conectados y mostramos en consola.
-    console.log(data);})
-
-socket.on('evento_todos', data=>{ //recibimos un evento del servidor que lo ven todos los clientes.
-        console.log(data);
-});
-
-
 
 socket.on('real_time_products', data => {
 
@@ -114,35 +102,6 @@ async function enviarID(id){
 }
 
 
-async function enviarDatosCart(cid,pid){
-
-const url=`/api/cart/:${cid}/product/:${pid}`;
-
-const opciones={
-    method:'POST'
-}
-try{
-    const respuesta= await fetch(url,opciones);
-    const datosRespuesta= await respuesta.json();
-    console.log(datosRespuesta);
-}catch(error){
-    console.error(error);
-}
-}
 
 
-
-
-
-async function addCart(){
-
-    const btnAddCart = document.getElementById(`btnagregar${this._id}`);        
-    btnAddCart.addEventListener("click", async() => {
-        await enviarDatosCart("646bd8f1a9e2cb824885cd40",_id)
-        
-      });
-}
-
-
-addCart();
 

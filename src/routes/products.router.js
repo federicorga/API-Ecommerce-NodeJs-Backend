@@ -29,7 +29,6 @@ router.get('/', async(req, res) =>{
 //localhost:8080/api/products/(number)
 router.get('/:pid', async(req, res) =>{
     const productId= req.params.pid;
-    console.log(productId)
     const product= await manager.getProductById(productId);
     
     product? res.send(product):res.send("Producto no encontrado");
@@ -48,7 +47,7 @@ router.post('/',async (req,res)=>{
 
 router.delete('/:pid', async(req, res) =>{
     const productId= req.params.pid;
-    console.log(productId)
+    
     const product= await manager.getProductById(productId);
     
     product? res.send(await manager.deleteProduct(productId)):res.send("Producto no encontrado");
@@ -59,9 +58,9 @@ router.delete('/:pid', async(req, res) =>{
 router.put('/:pid', async(req, res) =>{
 
     const productId= req.params.pid;
-    console.log(productId);
+  
     const newProduct = await req.body;
-    console.log(newProduct);
+
     const result = await manager.updateProduct(productId,newProduct);
 
     

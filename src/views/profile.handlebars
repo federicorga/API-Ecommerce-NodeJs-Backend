@@ -1,0 +1,14 @@
+<div>
+    <h1>perfil Info</h1>
+    <p>Nombre y apellido:{{user.name}}</p>
+    <p>Email:{{user.email}}</p>
+    <p>Edad:{{user.age}}</p>
+    <a href="/views/products"><button>Ir a productos</button></a>
+    <a href="/views/chat"><button>Ir al Chat</button></a>
+    {{#if role}}
+    <a href="/views/realtimeproducts"><button>Ir al editor de productos</button></a>
+   {{/if}}
+    <a href="/api/sessions/logout"><button>Salir</button></a>
+
+
+</div>

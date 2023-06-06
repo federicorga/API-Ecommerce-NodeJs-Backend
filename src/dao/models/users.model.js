@@ -7,7 +7,7 @@
 import mongoose from "mongoose";
 
 
-const userCollection= 'usuarios' //nombre de nuestra coleccion. tambien llamado Esquema
+const userCollection= 'users' //nombre de nuestra coleccion. tambien llamado Esquema
 
 //definimos la estructura de la coleccion.
 
@@ -27,9 +27,12 @@ const userSchema =new mongoose.Schema({ //se genera un ID de forma automatica al
         type:String,
         unique: true, // no pueden haber 2 usuarios con el mismo email.
         required:true, // que el campo sea si o si requerido
-    }
+    },
+    age:{type:String,
+    required:true},
+    password:{type:String}
 });
 
-export const userModel=mongoose.model(userCollection,userSchema); //Esquema y modelo (parte funcional).
+const userModel = mongoose.model(userCollection, userSchema); //Esquema y modelo (parte funcional).
 //al exportar se crea el modelo para poder trabajar.
-
+export default userModel;

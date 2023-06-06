@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { userModel } from "../dao/models/user.model.js"; //importamos el modelo de MongoDB
+import userModel  from "../dao/models/users.model.js"; //importamos el modelo de MongoDB
 
 
 //Definimos un servicio y hacemos una consulta
 
 const router=Router();
 
-//los Modelos son consultas asincronicas por eso ponemos async ya que son a la base de datos
+//los Modelos son consultas asincronicas por eso ponemos async ya que son a la base de datos.
+
 
 router.get('/',async(req,res)=>{
 
@@ -62,7 +63,6 @@ router.put('/:uid', async(req,res)=>{
         
     }
 
-
 });
 
 router.delete('/:uid',async(req,res)=>{
@@ -75,7 +75,7 @@ router.delete('/:uid',async(req,res)=>{
         res.status(500).send({error})
         
     }
-})
+});
 
 export default router;
 

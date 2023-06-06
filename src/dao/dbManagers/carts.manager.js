@@ -133,7 +133,7 @@ modifyQuantityCart= async (cartId, productId, quantity=1) => {
       { _id: cartId },
       { $pull: { products: { product: productId } } }
     );
-      return {success: "Product removed from cart"}
+      return {success: "Product removed from cart", payload:result}
     
   };
 }

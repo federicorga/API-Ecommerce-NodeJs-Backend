@@ -8,45 +8,75 @@ import {__dirname, PORT, DB_USER, DB_PASS} from "./utils.js";
 //import ProductManager from './dao/manager/productManager.js';
 import ProductsManagerDB from './dao/dbManagers/products.manager.js';
 import mongoose from 'mongoose'; //conexion a base de datos 
-import userRouter from './routes/user.router.js';
+import userRouter from './routes/users.router.js'
 import MessagesManager from './dao/dbManagers/messages.manager.js';
+import cookieParser from 'cookie-parser'; // el cookie es como un middleware
+import userCookies from './routes/cookies.router.js';
+import session from 'express-session'; //para crear usuario e inicio de sesion 
+import sessionsRouter from './routes/sessions.router.js';
+import FileStore from 'session-file-store'; //permite guardar sesiones en archivos
+import MongoStore from 'connect-mongo'; //mongo para conectar los usuarios en mongo
 
+//const fileStorage=FileStore(session); //le pasamos como parametro la session de express
 
 const app = express();
 
-//Configuracion para Soporte 
 
-app.use(express.json()); // Permite soportar y recibir formatos JSON (desde el front y el back)
-app.use(express.urlencoded({extended: true})); //permite soportar rutas con codigos y caracteres especiales (ejemplo el @ de un gmail)
-
-//Configuracion express-handelbars (Motor de plantilla)
-app.engine('handlebars', handlebars.engine()); //engine(), es un método en Express.js que registra un motor de plantilla en la aplicación
-app.set('views',`${__dirname}/views`); //indicar donde estan almacenadas nuestras vistas.
-app.set('view engine', 'handlebars'); //Configuracion para decirle a express que use handlebars como motor de plantilla.
-//views engine se refiere al motor de plantillas que se utilizará 
-
-
-//Configuracion para agregar funcionalidad de archivos estáticos. (poder usar la carpeta public).
-app.use(express.static(`${__dirname}/public`)); //usamos la carpeta public de manera estatica. con path absoluto __dirname.
-//esto permite acceder a archivos css,js y cualquier archivo y carpeta dentro de public. Todo lo que esta dentor de public es estatico.
-
-
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartRouter);
-app.use('/views',viewsRouter);
-app.use('/api/users',userRouter);
-
-
-//Conexion a la Base de datos de mongoos Atlas
 
 try {
-    await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority`);
+   await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority`);
     console.log('DB Mongoose Connected')
 } catch (error) {
 
     console.log(error)
     
 }
+
+//Configuracion para Soporte 
+
+app.use(express.json()); // Permite soportar y recibir formatos JSON (desde el front y el back)
+app.use(express.urlencoded({extended: true})); //permite soportar rutas con codigos y caracteres especiales (ejemplo el @ de un gmail)
+app.use(express.static(`${__dirname}/public`)); //usamos la carpeta public de manera estatica. con path absoluto __dirname.
+app.use(cookieParser()); //activamos el uso de cookies; //podemos firmar cookie poniendo dentro de cookieParser un 'secret'
+
+/*Sesiones usando file Storage
+app.use(session({ //sesion store es donde se va a almacenar los usarios, si no le pongo usa por defecto el almacenamiento en memoria
+    store: new fileStorage({path: `${__dirname}/sessions`, ttl: 30, retries:0}), //ttl es el tiempo de expiracion, retries es los reintentos
+    secret: 'admin1234',
+    resave: true, //en el caso de que no tengamos actividad, nos de mas tiempo de vida y se este autoguardando.
+    saveUninitialized: true, // a pesar de que no iniciemos sesion va a crear un objeto en donde vamos a almacenar los datos de la sesion que iniciemos despues.
+}));*/
+
+
+//Configuracion express-handelbars (Motor de plantilla)
+app.engine('handlebars', handlebars.engine()); //engine(), es un método en Express.js que registra un motor de plantilla en la aplicación
+app.set('views',`${__dirname}/views`); //indicar donde estan almacenadas nuestras vistas.
+app.set('view engine', 'handlebars'); //Configuracion para decirle a express que use handlebars como motor de plantilla.
+//views engine se refiere al motor de plantillas que se utilizará 
+//Configuracion para agregar funcionalidad de archivos estáticos. (poder usar la carpeta public).
+
+//esto permite acceder a archivos css,js y cualquier archivo y carpeta dentro de public. Todo lo que esta dentor de public es estatico.
+
+//usamos session con MONGODB
+app.use(session({
+    store: MongoStore.create({
+       client: mongoose.connection.getClient(), //reutilizo la coneccion que especifique arriba para no volver a hacer 2 conexiones
+        ttl: 3600 //tiempo de expiracion 3600 segundos
+    }),
+secret:'admin1234',
+resave:true,
+saveUninitialized:true
+}));
+
+
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartRouter);
+app.use('/views',viewsRouter);
+app.use('/api/users',userRouter);
+app.use('/api/cookies',userCookies);
+app.use('/api/sessions', sessionsRouter);
+
+
 
 //Levantando Server con Socket.io
 
@@ -74,6 +104,7 @@ socketServer.on('connection', async socket=>{
     const messageManager=new MessagesManager();
 
     socket.on('message',async (data)=>{ //recibo mensaje de usuario recibo datos por eso data
+        
          await messageManager.save(data)//guardo esos mensajes datos en el array
 
          let messages= await messageManager.getAll();

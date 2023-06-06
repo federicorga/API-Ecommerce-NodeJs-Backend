@@ -34,7 +34,7 @@ export default class ProductsManagerDB {
           if (page > products.totalPages || page <= 0) {
             return 'La página especificada no existe' ;
           }
-          console.log(products)
+        
         
           return products;
 
@@ -110,7 +110,7 @@ export default class ProductsManagerDB {
             }
         ]);
 
-        console.log(products)
+       
 
         return products;
     };

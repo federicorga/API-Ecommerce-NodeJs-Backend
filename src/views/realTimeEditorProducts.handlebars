@@ -1,7 +1,9 @@
 
 
 <div>
-    <h1> LISTA CON SOCKET.IO</h1>
+    <h1> Editor de productos con Socket.IO</h1>
+    <h2>Solo Admin Autorizado</h2>
+     {{#if role}}
     <table>
         <thead>
             <tr>
@@ -36,9 +38,11 @@
           <label for="category">Categoria: </label>
         <input type="text" name="category" id="category" required autocomplete="off">
         <button class="btnEnviar" type="submit">Enviar</button>
+        <button id="btnLimpiar" class="btnLimpiar" type="button">Limpiar</button>
 </form>
     </div>
 </div>
+ {{/if}}
 
 <script src="/socket.io/socket.io.js"></script><!--Archivo de Node Modules para usar Socket.io -->
 <script src="/js/index.js"></script>

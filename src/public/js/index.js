@@ -31,10 +31,19 @@ formRealTime.addEventListener('submit',async (e)=>{
 
     const formData = new FormData(formRealTime);
  
-
-    await enviarDatos(formData);
+    await sendDataApiProductAdd(formData);
+    formRealTime.reset();
 
 });
+
+const btnLimpiar=document.getElementById("btnLimpiar");
+
+btnLimpiar.addEventListener('click',()=>{
+formRealTime.reset();
+const submitButton = formRealTime.querySelector(".btnEnviar");
+submitButton.innerText = "Enviar";
+
+})
 
 
 });
@@ -53,22 +62,51 @@ function renderTable (prod,container){
             <th>${prod.stock}</th>
             <th>${prod.category}</th>
             <th>${prod._id}</th>
-            <th><input type="button" id="btnResta${prod._id}" value="Eliminar"></input>
+            <th>
+            <input type="button" id="btnResta${prod._id}" value="Eliminar"></input>
+            <input type="button" id="btnEdit${prod._id}" value="Editar"></input>
+            </th>
+            
         `
-
         container.appendChild(tr);
-
       
         const btnDelete = document.getElementById(`btnResta${prod._id}`);        
         btnDelete.addEventListener("click", async() => {
-            await enviarID(prod._id)
+            await senDataApiProductDelete(prod._id)
             
           });
-    }
+
+          const btnEdit = document.getElementById(`btnEdit${prod._id}`);
+          btnEdit.addEventListener("click", () => {
+          fillFormWithProductData(prod);
+    });
+  };
+
+
+  function fillFormWithProductData(product) {
+    const form = document.getElementById("formRealTime");
+  
+    // Llena los campos del formulario con los datos del producto
+    form.title.value = product.title;
+    form.description.value = product.description;
+    form.code.value = product.code;
+    form.price.value = product.price;
+    form.stock.value = product.stock;
+    form.category.value = product.category;
+  
+    // Cambia el texto del botón de enviar a "Actualizar"
+    const submitButton = form.querySelector(".btnEnviar");
+    submitButton.innerText = "Actualizar";
+
+
+    const btnLimpiar = document.getElementById("btnLimpiar");
+
+    btnLimpiar.style.display = "inline-block";
+  }
 
 
 
-  async function enviarDatos(formData) {
+  async function sendDataApiProductAdd(formData) { //envia dato al api/products metodo: Post
     const url = '/api/products';
     const formObj = Object.fromEntries(formData.entries());  //Transforma la clave valor del forumlario en un objeto Javascript ya que lo que sale del formulario es un objeto del tipo FormData
     const opciones = {
@@ -81,12 +119,13 @@ function renderTable (prod,container){
       const respuesta = await fetch(url, opciones);
       const datosRespuesta = await respuesta.json();
       console.log(datosRespuesta);
+      
     } catch (error) {
       console.error(error);
     }
 }
 
-async function enviarID(id){
+async function senDataApiProductDelete(id){ //envia dato al api/products metodo: Delete
     const url = `/api/products/${id}`;
     const opciones ={
         method: 'DELETE',

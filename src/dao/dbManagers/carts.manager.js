@@ -58,7 +58,7 @@ export default class CartsManagerDB {
     
     if(cart && product){ 
         
-    let isInCart=cart.products.find((item)=>item.product._id.toString()===productId);
+    let isInCart= cart.products.find((item)=>item.product._id.toString()===productId);
     
     let result;
     if(isInCart){
@@ -126,7 +126,7 @@ modifyQuantityCart= async (cartId, productId, quantity=1) => {
 
   deleteProductInCart = async (cartId, productId) => {
     const cart = await this.getCartById(cartId); //existe el carrito
-    console.log(cart)
+  
    
     const existingProduct = cart.products.find((item) => item.product.toString() === productId); //existe el producto en el carrito
     console.log(existingProduct);

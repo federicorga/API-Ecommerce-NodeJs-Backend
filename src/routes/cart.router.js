@@ -63,6 +63,7 @@ router.delete('/:cid', async(req,res)=>{ //limpio el carrito especificado por id
 router.delete('/:cid/products/:pid', async(req,res)=>{ //elimina un producto del carrito
 const cartId=req.params.cid;
 const productId=req.params.pid;
+
 const result= await cartManager.deleteProductInCart(cartId,productId);
 return res.send(result);
 });

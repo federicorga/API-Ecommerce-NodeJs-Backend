@@ -125,8 +125,11 @@ modifyQuantityCart= async (cartId, productId, quantity=1) => {
   };
 
   deleteProductInCart = async (cartId, productId) => {
-    const cart = await this.getCartById(cartId);
-    const existingProduct = cart.products.find((item) => item.product === productId);
+    const cart = await this.getCartById(cartId); //existe el carrito
+    console.log(cart)
+   
+    const existingProduct = cart.products.find((item) => item.product.toString() === productId); //existe el producto en el carrito
+    console.log(existingProduct);
     if (!cart) return { error: "Cart not found" };
     if (!existingProduct) return { error: "product in cart not found" }
     const result = await cartModel.updateOne(

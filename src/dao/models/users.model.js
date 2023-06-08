@@ -30,7 +30,9 @@ const userSchema =new mongoose.Schema({ //se genera un ID de forma automatica al
     },
     age:{type:String,
     required:true},
-    password:{type:String}
+    password:{type:String},
+    role:{type:Boolean,
+    default:false}
 });
 
 const userModel = mongoose.model(userCollection, userSchema); //Esquema y modelo (parte funcional).

@@ -14,8 +14,10 @@ import cookieParser from 'cookie-parser'; // el cookie es como un middleware
 import userCookies from './routes/cookies.router.js';
 import session from 'express-session'; //para crear usuario e inicio de sesion 
 import sessionsRouter from './routes/sessions.router.js';
-import FileStore from 'session-file-store'; //permite guardar sesiones en archivos
+//import FileStore from 'session-file-store'; //permite guardar sesiones en archivos
 import MongoStore from 'connect-mongo'; //mongo para conectar los usuarios en mongo
+import initializePassport from './config/passport.config.js';
+import passport from 'passport';
 
 //const fileStorage=FileStore(session); //le pasamos como parametro la session de express
 
@@ -39,23 +41,14 @@ app.use(express.urlencoded({extended: true})); //permite soportar rutas con codi
 app.use(express.static(`${__dirname}/public`)); //usamos la carpeta public de manera estatica. con path absoluto __dirname.
 app.use(cookieParser()); //activamos el uso de cookies; //podemos firmar cookie poniendo dentro de cookieParser un 'secret'
 
-/*Sesiones usando file Storage
-app.use(session({ //sesion store es donde se va a almacenar los usarios, si no le pongo usa por defecto el almacenamiento en memoria
-    store: new fileStorage({path: `${__dirname}/sessions`, ttl: 30, retries:0}), //ttl es el tiempo de expiracion, retries es los reintentos
-    secret: 'admin1234',
-    resave: true, //en el caso de que no tengamos actividad, nos de mas tiempo de vida y se este autoguardando.
-    saveUninitialized: true, // a pesar de que no iniciemos sesion va a crear un objeto en donde vamos a almacenar los datos de la sesion que iniciemos despues.
-}));*/
-
-
 //Configuracion express-handelbars (Motor de plantilla)
 app.engine('handlebars', handlebars.engine()); //engine(), es un método en Express.js que registra un motor de plantilla en la aplicación
 app.set('views',`${__dirname}/views`); //indicar donde estan almacenadas nuestras vistas.
 app.set('view engine', 'handlebars'); //Configuracion para decirle a express que use handlebars como motor de plantilla.
 //views engine se refiere al motor de plantillas que se utilizará 
 //Configuracion para agregar funcionalidad de archivos estáticos. (poder usar la carpeta public).
-
 //esto permite acceder a archivos css,js y cualquier archivo y carpeta dentro de public. Todo lo que esta dentor de public es estatico.
+
 
 //usamos session con MONGODB
 app.use(session({
@@ -67,6 +60,25 @@ secret:'admin1234',
 resave:true,
 saveUninitialized:true
 }));
+//-------------------
+
+
+/*Sesiones usando file Storage
+app.use(session({ //sesion store es donde se va a almacenar los usarios, si no le pongo usa por defecto el almacenamiento en memoria
+    store: new fileStorage({path: `${__dirname}/sessions`, ttl: 30, retries:0}), //ttl es el tiempo de expiracion, retries es los reintentos
+    secret: 'admin1234',
+    resave: true, //en el caso de que no tengamos actividad, nos de mas tiempo de vida y se este autoguardando.
+    saveUninitialized: true, // a pesar de que no iniciemos sesion va a crear un objeto en donde vamos a almacenar los datos de la sesion que iniciemos despues.
+}));*/
+
+
+
+
+//PASSPORT Se inicializa en app a nivel global debe ir debajo de Session
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+//------------------------------
 
 
 app.use('/api/products', productsRouter);

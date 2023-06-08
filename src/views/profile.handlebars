@@ -1,8 +1,9 @@
 <div>
     <h1>perfil Info</h1>
-    <p>Nombre y apellido:{{user.name}}</p>
+    <p>Nombre y apellido:{{user.first_name}}</p>
     <p>Email:{{user.email}}</p>
     <p>Edad:{{user.age}}</p>
+    <p>Role:{{user.role}}</p>
     <a href="/views/products"><button>Ir a productos</button></a>
     <a href="/views/chat"><button>Ir al Chat</button></a>
     {{#if role}}

@@ -190,3 +190,37 @@ label{
     margin: 0;
     padding: 0;
   }
+
+
+
+
+  /*----LOGIN*/
+
+  .contentLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .loginForm{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btnLoginEnviar{
+    cursor: pointer;
+  }
+
+  .btnLoginGithub{
+    margin-top: 10px;
+  }
+
+  .btnLoginGithub a{
+    text-decoration: none;
+  }
+
+  .btnLoginGithub button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }

@@ -1,11 +1,14 @@
 <section class="cart_container">
   <h1>Cart</h1>
-  <h3>Products</h3>
+  <a href="/views/products"><button>Ir a productos</button></a>
+  <a href="/views/cart/{{cid}}"><button>Limpiar Carrito</button></a>
+
+  <h3>Products in cart</h3>
   {{#each products}}
   <div>
     <p>{{this.product.title}}</p>
     <span>${{this.product.price}} x {{this.quantity}} Unidades</span>
   </div>
   {{/each}}
-  <a href="/views/products"><button>Ir a productos</button></a>
+
 </section>

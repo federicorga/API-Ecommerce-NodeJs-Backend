@@ -35,17 +35,17 @@ export const generateToken = (user) => {
     return token; //se retorna el token generado
 };
 
-
 export const authToken = (req, res, next) => { //Midellware de autenticacion de token
-    const authToken = req.headers.authorization;
+    const authToken = req.headers.authorization; //nos llega el token de acceso desde el front con la palabra bearer
     
-    if(!authToken) return res.status(401).send({error: 'Not authenticated'});
+    if(!authToken) return res.status(401).send({error: 'Not authenticated'});// si no llega o el front no lo enia
 
-    const token = authToken.split(' ')[1];
+    const token = authToken.split(' ')[1]; //extrae el token y le quita la palabra bearer
+    // el 1 es porque bearer va a estar en la posicion 0 y el codigo token en la posicion 1
 
-    jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
-        if (error) return res.status(403).send({error: 'Not authorized'});
-        req.user = credentials.user;
+    jwt.verify(token, PRIVATE_KEY, (error, credentials) => { // verifica el token (credentials es el token)
+        if (error) return res.status(403).send({error: 'Not authorized'}); //en caso de haber un error con la credencial/token
+        req.user = credentials.user; //en caso de ser valido se envia envevido la credencial con la extension usuario (todo simila a passport)
         next();
     })
 };

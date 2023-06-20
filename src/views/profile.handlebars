@@ -3,12 +3,12 @@
     <p>Nombre y apellido:{{user.first_name}}</p>
     <p>Email:{{user.email}}</p>
     <p>Edad:{{user.age}}</p>
-    <p>Role:{{user.role}}</p>
-    <a href="/views/products"><button>Ir a productos</button></a>
-    <a href="/views/chat"><button>Ir al Chat</button></a>
     {{#if role}}
-    <a href="/views/realtimeproducts"><button>Ir al editor de productos</button></a>
+    <p>Role: Admin</p>
+    <a href="/views/dashboard"><button>Ir al editor de productos</button></a>
    {{/if}}
+   <a href="/views/products"><button>Ir a productos</button></a>
+    <a href="/views/chat"><button>Ir al Chat</button></a>
     <a href="/api/sessions/logout"><button>Salir</button></a>
 
 

@@ -16,11 +16,11 @@ const cartManager=new CartManager();
 
 
 
-router.get('/realtimeproducts', async (req, res) => { //usando SocketIo
+router.get('/dashboard', async (req, res) => { //usando SocketIo
     const products = await productManager.getProducts();
     const {role}=req.session.user //envio el rol de admin
 
-    res.render('realTimeEditorProducts', { products,role });
+    res.render('dashboard', { products,role });
 
 
 });
@@ -43,7 +43,7 @@ router.get('/cart/:cid', async (req, res) => { //visualizar un carrito especific
     let { cid } = req.params
     let { products, _id } = await cartManager.getCartByIdWithProduct(cid);
    
-    res.render("cart", {title: "Products", style: "home", products ,_id});
+    res.render("cart", {title: "Products", style: "home", products ,_id,cid});
 
 });
 
@@ -80,5 +80,8 @@ router.get('/profile',privateAccess, (req,res)=>{// aqui vamos a mostrar los dat
     }); 
 });
 
+router.get('/reset',publicAccess, (req,res)=>{
+    res.render('reset');
+});
 
 export default router;

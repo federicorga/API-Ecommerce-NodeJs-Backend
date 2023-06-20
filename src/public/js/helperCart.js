@@ -1,8 +1,4 @@
-
-
-
-
-const enviarDatosCart= async (e)=>{
+const DeleteAllProcutInCart= async (e)=>{
     const button = e.target;
     if(e.target.classList.contains("addToCart")){
     
@@ -41,4 +37,3 @@ const enviarDatosCart= async (e)=>{
             btn.addEventListener("click", enviarDatosCart);
         });
     }
-addCart(); // boton para agregar productos al carrito

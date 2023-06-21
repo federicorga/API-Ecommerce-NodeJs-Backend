@@ -1,42 +1,68 @@
 import passport from 'passport';
 import local from 'passport-local';
 import userModel from '../dao/models/users.model.js';
-import { createHash, isValidPassword } from '../utils.js';
+import { createHash, isValidPassword,PRIVATE_KEY } from '../utils.js';
 import GitHubStrategy from 'passport-github2';
 import jwt from 'passport-jwt'
-const LocalStrategy= local.Strategy; //una constante para identificar con que mecanismo de autoenticacion voy a trabajar
+//const LocalStrategy= local.Strategy; //una constante para identificar con que mecanismo de autoenticacion voy a trabajar
 
 const JWTStrategy=jwt.Strategy
 const ExtractJWT= jwt.ExtractJwt;//extraer jwt de las cookies
 
 
 const initializePassport =()=>{ //mecanismo de registro y Login - Passport trabaja a manera de un middleware
-
-    //se definen los procesos de registro y login
-    passport.use('jwt',new JWTStrategy({ //se usa JWT como estrategia
-     jwtFromRequest:ExtractJWT.fromExtractors([cookieExtractor]), //metodo para extraer el jwt de la cookie mediante la funcion cookieExtractor
-     secretOrKey: 'coder39760' //usamos el codigo de utils ya que con este siframos el jwt
-    }, async (jwt_payload, done)=>{ //username es el email y done es un callback, req es lo que se obtiene de passReq
-      
-        const { first_name, last_name, email, age} = jwt_payload;
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), //metodo para extraer de cookies el JWT
+        secretOrKey: PRIVATE_KEY //la clave privada debe ser la de utils para que pueda desifralo (ya que lo creamos con ese codigo para sifrar, entonces para desifrar se usa para el proceso inverso)
+    }, async (jwt_payload, done) => { //jwt_payload es el jwt ya decifrado es decir que extrajo la info de la cookie
         try {
-            const exists = await userModel.findOne({ email: username });
-            if (exists){
-                return done(null, jwt_payload.user); //el usuario ya existe mediante el false y no puede registrarse nuevamente
-            } 
-            const userToSave = {
-                first_name,
-                last_name,
-                email,
-                age,
-                password:createHash(password), //se importa de utils esto hashea la contraseña y la guarda en la bd
-            };
-            const result= await userModel.create(userToSave);
-            return done(null,result)
+            // if(!jwt_payload.jkhasdfakshdf) return done(null, false, { messages: 'User not found' })
+            return done(null, jwt_payload.user); 
+           //aca passport setea el usuario en forma de req.user que es el objeto con los elementos dentro de user
         } catch (error) {
-            return done(`Error al obtener el usuario: ${error}`)
+            return done(error);
         }
     }));
+   
+
+};
+
+const cookieExtractor=req=>{ //obtenemos la cookie del front que ya fueron seteadas
+    let token =null;
+    if(req && req.cookies){
+        token = req.cookies['eCookieToken']; //cookie que esta en sessions.router
+        return token;
+    }
+    //con esto accedo a las cookies que yo tenia seteadas anteriormente
+    //esto es una peticion http asi que puedo acceder a la cookie mediante este metodo
+}
+
+export default initializePassport;
+
+
+
+
+
+//Ejemplo de lo que esta en jwt_payload.user
+// ya esta desifrada la cookie 
+/*{
+  "user": {
+    "first_name": "fede",
+    "last_name": "sd",
+    "age": "12",
+    "email": "fe@hotmail.com",
+    "role": false
+  },
+  "iat": 1687325461,
+  "exp": 1687411861
+}*/
+
+
+
+
+/* Uso de passport
+
+ 
 
     passport.use('login',new LocalStrategy({ //se pasa la estrategia local LocalStrategy y el passport se llama login que se usara en el router
         usernameField:'email'
@@ -100,18 +126,4 @@ const initializePassport =()=>{ //mecanismo de registro y Login - Passport traba
     passport.deserializeUser(async(id,done)=>{ //busca el usuario y lo deserializa con le id
         const user = await userModel.findById(id); 
         done(null,user);
-    });
-
-};
-
-const cookieExtractor=req=>{
-    let token =null;
-    if(req && req.cookies){
-        token = req.cookies['eCookieToken']; //cookie que esta en sessions.router
-        return token;
-    }
-    //con esto accedo a las cookies que yo tenia seteadas anteriormente
-    //esto es una peticion http asi que puedo acceder a la cookie mediante este metodo
-}
-
-export default initializePassport;
+    });*/

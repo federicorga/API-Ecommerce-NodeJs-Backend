@@ -27,7 +27,7 @@ export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.
 
 //JWS----- Proxima entrega sin temrinar...
 
-const PRIVATE_KEY = 'coder39760'; //clave privada de JWT
+export const PRIVATE_KEY = 'coder39760'; //clave privada de JWT
 
 export const generateToken = (user) => {
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' }); //.sign genera el jwt y dentro de el se enveve el user, el segundo es la clave privada de cifrado de los datos
@@ -47,5 +47,5 @@ export const authToken = (req, res, next) => { //Midellware de autenticacion de 
         if (error) return res.status(403).send({error: 'Not authorized'}); //en caso de haber un error con la credencial/token
         req.user = credentials.user; //en caso de ser valido se envia envevido la credencial con la extension usuario (todo simila a passport)
         next();
-    })
+    });
 };

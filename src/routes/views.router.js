@@ -3,7 +3,7 @@ import {Router } from 'express';
 import ProductManager from '../dao/dbManagers/products.manager.js';
 import MessagesManager from '../dao/dbManagers/messages.manager.js';
 import CartManager from '../dao/dbManagers/carts.manager.js';
-
+import passport from 'passport';
 
 const router = Router();
 
@@ -30,12 +30,13 @@ router.get('/chat', async (req, res) => {
     res.render('chat', { messages });
 });
 
-router.get('/products', async (req, res) => { //visualizar productos con paginación
+router.get('/products',passport.authenticate('jwt',{session:false}), async (req, res) => { //visualizar productos con paginación
     const { limit, sort, page, query } = req.query;
+    const {cart}=req.user;
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productManager.getProductsOrganized(limit, page, query, sort);
     const products = docs;
     res.render('home', {
-        products,hasPrevPage, hasNextPage, nextPage, prevPage, limit, query});
+        products,hasPrevPage, hasNextPage, nextPage, prevPage, limit, query,cart});
 
 })
 
@@ -55,12 +56,12 @@ router.get('/cookies', (req,res)=>{
 
 //Acceso Públicos y privados
 const publicAccess=(req,res,next)=>{
-    if(req.session.user) return res.redirect('/views/profile');
+    if(req.user) return res.redirect('/views/profile');
     next();
 }
 
 const privateAccess=(req,res,next)=>{
-    if(!req.session.user)return res.redirect('/views/login');
+    if(!req.user)return res.redirect('/views/login');
     next();
 }
 
@@ -68,14 +69,15 @@ router.get('/register',publicAccess, (req,res)=>{
     res.render('register');
 });
 
-router.get('/login', publicAccess, (req,res)=>{
+router.get('/login',publicAccess, (req,res)=>{
     res.render('login');
 });
 
-router.get('/profile',privateAccess, (req,res)=>{// aqui vamos a mostrar los datos de usarios
-    const{role}=req.session.user //si existe role, el admin posee el editor
+router.get('/profile',passport.authenticate('jwt',{session:false}),privateAccess, (req,res)=>{// aqui vamos a mostrar los datos de usarios
+    
+    const{role}=req.user //si existe role, el admin posee el editor
     res.render('profile',{
-        user:req.session.user, //enviamos los datos del usuario
+        user:req.user, //enviamos los datos del usuario
         role
     }); 
 });

@@ -9,11 +9,13 @@ form.addEventListener('submit', e => {
         method: 'POST',
         body: JSON.stringify(obj),
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
     }).then(result => {
+        
         if (result.status === 200) {
-            console.log(document.cookie); // httpOnly sirve para no poder usar esto solo peticion http
+            console.log(document.cookie);// httpOnly sirve para no poder usar esto solo peticion http
             window.location.replace('/views/profile');
         }
     })

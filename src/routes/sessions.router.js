@@ -1,22 +1,45 @@
 import { Router } from 'express';
 import userModel from '../dao/models/users.model.js';
 import { authToken, createHash, generateToken, isValidPassword } from '../utils.js';
+import CartManager from '../dao/dbManagers/carts.manager.js';
 import passport from 'passport';
 const router=Router();
 
 
+const cartManager=new CartManager();
 
+router.post('/register', async (req, res) => {
 
-router.post('/register', passport.authenticate('register', {failureRedirect: 'fail-register'}), async (req, res) => {
-    const accessToken=generateToken(req.user); //generamos el token al registrar
-    res.cookie('eCookieToken',accessToken,{maxAge:60*60*1000, httpOnly:true} //enviamos el accesToken a la cookie del front
-    // y esta cookie solo estara valida a travez de una peticion html con httpOnly(le da seguridad)
-    ).send({ status: 'success', message: 'User registered', access_token:accessToken })
+    const { first_name, last_name, email, age,password} = req.body;
+    const cart = await cartManager.addNewCart(); //se genera un nuevo carrito para el usuario
+    try {
+        const exists = await userModel.findOne({ email: email });
+        if (exists){
+            res.send({status:'error ', error:'user exist'}); //el usuario ya existe mediante el false y no puede registrarse nuevamente
+        } 
+
+        const userToSave = {
+            first_name,
+            last_name,
+            email,
+            age,
+            cart,
+            password:createHash(password), //se importa de utils esto hashea la contraseña y la guarda en la bd
+        };
+
+        const result= await userModel.create(userToSave);
+
+        const accessToken=generateToken(result); //generamos el token al registrar
+      res.send({ status: 'success', message: 'User registered', access_token:accessToken })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ status: 'error', error: error.message });
+    }
+    
+   
 });
 
-router.get('/fail-register', async(req,res)=>{ //passport redirige a esta rutra si el registro falla podemos poner cualquiera
-    res.send({status:'error', message:'Register failed!'})
-})
 
 router.get('/session', (req,res)=>{
     if(req.session.counter){
@@ -28,27 +51,44 @@ router.get('/session', (req,res)=>{
     }
 });
 
-router.post('/login',passport.authenticate('login', {failureRedirect: 'fail-login'}) ,async (req, res) => {
+router.post('/login',async (req, res) => {
 
-    if(!req.user) return res.status(400).send({ status: 'error', error: 'Invalid Credentials' });
-
-
+    const{email,password}=req.body;
    
-    req.session.user={
-    first_name:req.user.first_name,
-    last_name:req.user.last_name,
-    age: req.user.age,
-    email:req.user.email,
-    cart:req.user.cart,
-    role:req.user.role
+
+    try {
+        const user = await userModel.findOne({ email:email }); //busco en la BD
+        
+        if (!user) return res.status(400).send({ status: 'error', error: 'Invalid credentials' });
+
+
+        if(!isValidPassword(user,password))return res.status(400).send({status: 'error', error: 'Invalid password' });//verifica si las contraseñas coinicden
+
+        const userFind = {
+            first_name:user.first_name,
+            last_name:user.last_name,
+            age:user.age,
+            email:user.email,
+            role:user.role,
+            cart:user.cart
+          };
+
+        //si el login se hace de manera exitosa va a setear el req.User
+
+        const accessToken=generateToken(userFind); //generamos el token
+res.cookie('eCookieToken',accessToken,{maxAge:60*60*1000, httpOnly:false} //enviamos el accesToken a la cookie del front
+// y esta cookie solo estara valida a travez de una peticion html con httpOnly(le da seguridad)
+).send({ status: 'success'})
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ status: 'error', error });
     }
-const accessToken=generateToken(req.session.user); //generamos el token
- res.send({ status: 'success', message: 'Login success', access_token:accessToken })
    
 });
 
-router.get('/current',passport.authenticate('register',{session:false}), (req,res)=>{ //trabajamos con un middleware de jwt passport y ponemos el nombre de la estrategia register de config
-    //sessions false es porque ya no se trabaja con sesiones
+router.get('/current',passport.authenticate('jwt',{session:false}), (req,res)=>{ //trabajamos con un middleware de jwt passport y ponemos el nombre de la estrategia register de config
+    //sessions false es porque ya no se trabaja con session
     res.send({status:'success', payload: req.user})
 })
 

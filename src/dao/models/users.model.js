@@ -31,7 +31,8 @@ const userSchema =new mongoose.Schema({ //se genera un ID de forma automatica al
     age:{type:String,
     required:true},
     password:{type:String},
-    cart:{type:mongoose.Schema.Types.ObjectId, ref:"carts"},
+    cart:{type:mongoose.Schema.Types.ObjectId, ref:"carts",
+    default:[]},
     role:{type:Boolean,
     default:false}
 });

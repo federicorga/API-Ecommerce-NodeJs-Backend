@@ -124,6 +124,8 @@ router.post('/reset', async(req,res)=>{
 })
 
 router.get('/logout', (req,res)=>{
+
+    res.clearCookie('eCookieToken');
     req.session.destroy(error=>{
         if(error)return res.status(500).send({status: 'error', error:'Logout fail!'});
         
@@ -139,9 +141,8 @@ res.send('Estas logueado')
 
 
 //rutas Github-------
-router.get('/github', passport.authenticate(
-    'github', { scope: ['user:email'] }
-), async (req, res) => {
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+
     res.send({ status: "success", message: "User registered" })
 });
 

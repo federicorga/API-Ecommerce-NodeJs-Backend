@@ -52,7 +52,6 @@ router.delete('/:cid', async(req,res)=>{ //limpio el carrito especificado por id
     try {
         const cartId=req.params.cid;
         const result = await cartManager.cartClean(cartId);
-        console.log(result);
         return res.send(result);  
     } catch (error) {
         res.send(500).send({status:'error',error});  

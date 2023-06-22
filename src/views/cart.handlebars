@@ -1,7 +1,7 @@
 <section class="cart_container">
   <h1>Cart</h1>
   <a href="/views/products"><button>Ir a productos</button></a>
-  <a href="/views/cart/{{cid}}"><button>Limpiar Carrito</button></a>
+  <a href="/views/cart/{{cid}}"><button data-custom="{{cid}}"class="cleanCart">Limpiar Carrito</button></a>
 
   <h3>Products in cart</h3>
   {{#each products}}
@@ -12,3 +12,5 @@
   {{/each}}
 
 </section>
+
+<script src="/js/helperCart.js"></script>

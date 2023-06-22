@@ -8,6 +8,9 @@ const enviarDatosCart= async (e)=>{
     
     
     const pid= e.target.dataset.id;
+    const cid = e.target.dataset.custom;
+    console.log(cid)
+    
 
     button.disabled = true;
  
@@ -15,7 +18,7 @@ const enviarDatosCart= async (e)=>{
     button.style.pointerEvents = "none";
     button.style.cursor = "not-allowed";
     
-    const url=`/api/carts/646bd8f1a9e2cb824885cd40/product/${pid}`;
+    const url=`/api/carts/${cid}/product/${pid}`;
     
     const opciones={
         method:'POST'

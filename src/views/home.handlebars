@@ -25,7 +25,7 @@
                 <td>{{this.stock}}</td>
                 <td>{{this.category}}</td>
                 <td>{{this._id}}</td>
-                <td><button type="button" data-id="{{this._id}}"  value="Agregar al Carrito" class="addToCart">Agregar al Carrito</button></td>
+                <td><button type="button" data-id="{{this._id}}" data-custom="{{../cart}}"  value="Agregar al Carrito" class="addToCart">Agregar al Carrito</button></td>
             </tr>
             {{/each}}
         </tbody>

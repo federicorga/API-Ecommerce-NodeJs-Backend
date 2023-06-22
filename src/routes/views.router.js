@@ -16,9 +16,9 @@ const cartManager=new CartManager();
 
 
 
-router.get('/dashboard', async (req, res) => { //usando SocketIo
+router.get('/dashboard',passport.authenticate('jwt',{session:false}), async (req, res) => { //usando SocketIo
     const products = await productManager.getProducts();
-    const {role}=req.session.user //envio el rol de admin
+    const {role}=req.user //envio el rol de admin
 
     res.render('dashboard', { products,role });
 
@@ -32,7 +32,7 @@ router.get('/chat', async (req, res) => {
 
 router.get('/products',passport.authenticate('jwt',{session:false}), async (req, res) => { //visualizar productos con paginación
     const { limit, sort, page, query } = req.query;
-    const {cart}=req.user;
+    const {cart}=req.user; //envio el carrito al que esta vinculado el usuario
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productManager.getProductsOrganized(limit, page, query, sort);
     const products = docs;
     res.render('home', {

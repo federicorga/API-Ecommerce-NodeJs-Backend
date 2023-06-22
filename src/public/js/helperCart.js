@@ -1,9 +1,9 @@
 const DeleteAllProcutInCart= async (e)=>{
     const button = e.target;
-    if(e.target.classList.contains("addToCart")){
+    if(e.target.classList.contains("cleanCart")){
     
     
-    const pid= e.target.dataset.id;
+    const cid = button.dataset.custom;
 
     button.disabled = true;
  
@@ -11,10 +11,10 @@ const DeleteAllProcutInCart= async (e)=>{
     button.style.pointerEvents = "none";
     button.style.cursor = "not-allowed";
     
-    const url=`/api/carts/646bd8f1a9e2cb824885cd40/product/${pid}`;
+    const url=`/api/carts/${cid}`;
     
     const opciones={
-        method:'POST'
+        method:'DELETE'
     }
    
         const respuesta= await fetch(url,opciones);
@@ -23,17 +23,19 @@ const DeleteAllProcutInCart= async (e)=>{
         button.disabled = false;
         button.removeAttribute("style");
     
-    }else(console.log("error no posee addToCart"))
+    }else(console.log("error no posee cleanCart"))
     button.disabled = false;
     button.removeAttribute("style");
     };
+
     
-    
-    async function addCart() {
+    async function cleanCart() {
         
-        let btnsAddCart = document.querySelectorAll('.addToCart');
+        let btnDeleteCart = document.querySelectorAll('.cleanCart');
     
-        btnsAddCart.forEach(btn => {
-            btn.addEventListener("click", enviarDatosCart);
+        btnDeleteCart.forEach(btn => {
+            btn.addEventListener("click", DeleteAllProcutInCart);
         });
-    }
+    };
+
+    cleanCart();

@@ -29,6 +29,8 @@ export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.
 
 export const PRIVATE_KEY = 'coder39760'; //clave privada de JWT
 
+export const PRIVATE_KEY_GITHUB='86d5846c845f97c62573cb334eb45c08b7f6fb0d'
+
 export const generateToken = (user) => {
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' }); //.sign genera el jwt y dentro de el se enveve el user, el segundo es la clave privada de cifrado de los datos
     // y expiresIn es el tiempo de expiracion 

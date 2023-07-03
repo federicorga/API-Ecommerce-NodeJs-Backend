@@ -1,13 +1,12 @@
-import { cartModel } from "../models/carts.model.js";
-import ProductManager from "./products.manager.js";
+import { cartModel } from "./models/carts.model.js";
+import {PRODUCTSDAO} from '../configDao.js'
 
-const productManager = new ProductManager();
 export default class CartsManagerDB {
   constructor() {
     console.log("Working carts with DB");
   }
 
-  getCarts = async () => {
+  getAllCarts = async () => {
     const carts = await cartModel.find().lean(); //con esto evitamos hacer el map
     return carts;
   };
@@ -50,11 +49,12 @@ export default class CartsManagerDB {
     }
   };
 
-  addProductInCart=async(cartId,productId)=>{
+  addOneProductInCart=async(cartId,productId)=>{
 
         
     const cart=await this.getCartById(cartId);
-    const product= await productManager.getProductById(productId);
+    const product= await PRODUCTSDAO.getProductById(productId);
+    
     
     if(cart && product){ 
         

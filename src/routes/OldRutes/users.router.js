@@ -2,6 +2,9 @@ import { Router } from "express";
 import userModel  from "../dao/models/users.model.js"; //importamos el modelo de MongoDB
 
 
+
+//****** FUERA DE USO, SE USA SESSIONS ******/
+
 //Definimos un servicio y hacemos una consulta
 
 const router=Router();

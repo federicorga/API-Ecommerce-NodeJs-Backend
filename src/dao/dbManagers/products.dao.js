@@ -1,4 +1,4 @@
-import { productModel } from "../models/products.models.js";
+import { productModel } from "./models/products.models.js"
 
 
 export default class ProductsManagerDB {
@@ -6,13 +6,13 @@ export default class ProductsManagerDB {
         console.log("working products whit DB")
     }
 
-    getProducts = async () => {
+    getAllProducts = async () => {
 
         const products = await productModel.find();
         return products.map(product => product.toObject());
     };
 
-    getProductsOrganized = async (limit = 10, page = 1, query = false, sort = false) => {
+    getAllProductsOrganized = async (limit = 10, page = 1, query = false, sort = false) => {
 
         if (isNaN(page)) {
             return 'La página especificada no existe' ;
@@ -40,7 +40,7 @@ export default class ProductsManagerDB {
 
     };
 
-    addProducts = async (product) => {
+    addAllProducts = async (product) => {
 
 
         const codeRepetido = await this.esCodeRepetido(product.code);
@@ -58,13 +58,13 @@ export default class ProductsManagerDB {
         return result;
     };
 
-    updateProduct = async (id, product) => {
+    updateOneProduct = async (id, product) => {
 
         const result = await productModel.updateOne({ _id: id }, product);
         return result
     };
 
-    deleteProduct = async (id) => {
+    deleteOneProduct = async (id) => {
         const result = await productModel.deleteOne({ _id: id });
         return result
 
@@ -119,7 +119,7 @@ export default class ProductsManagerDB {
 
     esCodeRepetido = async (code) => {
         // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
-        const products = await this.getProducts();
+        const products = await this.getAllProducts();
 
         const codeExiste = products.find(products => products.code === code);
 

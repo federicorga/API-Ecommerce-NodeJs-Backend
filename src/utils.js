@@ -6,13 +6,12 @@ import jwt from 'jsonwebtoken'; // dependencia de JWT para json web token
 
 
 const PORT = 8080;
-const DB_USER = "fedeex22"; //usario Mongo
-const DB_PASS = "Mongo1234568"; //contraseña Mongo
+
 const __filename = fileURLToPath(import.meta.url); //cuando trabajamos con Path la convencion es con __ doble ej: __filename
 const __dirname = dirname(__filename); //Path absoluto
 
 
-export { __dirname, PORT, DB_USER, DB_PASS };
+export { __dirname, PORT};
 
 //metodos de encriptado/Hasheo
 

@@ -1,15 +1,15 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import {Server} from 'Socket.io';
+import './dao/dbManagers/dbConfig.js' //conecta a la base de dato con solo colocarlo
 import productsRouter from './routes/products.router.js';
 import cartRouter from './routes/cart.router.js';
 import viewsRouter from './routes/views.router.js';
-import {__dirname, PORT, DB_USER, DB_PASS} from "./utils.js";
-//import ProductManager from './dao/manager/productManager.js';
-import ProductsManagerDB from './dao/dbManagers/products.manager.js';
-import mongoose from 'mongoose'; //conexion a base de datos 
-import userRouter from './routes/users.router.js'
-import MessagesManager from './dao/dbManagers/messages.manager.js';
+import {__dirname, PORT} from "./utils.js";
+import mongoose from 'mongoose';
+import ProductsManagerDB from './dao/dbManagers/products.dao.js';
+//import userRouter from './routes/users.router.js' //fuera de uso, se usa session
+import MessagesManager from './dao/dbManagers/messages.dao.js';
 import cookieParser from 'cookie-parser'; // el cookie es como un middleware
 import userCookies from './routes/cookies.router.js';
 import session from 'express-session'; //para crear usuario e inicio de sesion 
@@ -25,14 +25,7 @@ const app = express();
 
 
 
-try {
-   await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority`);
-    console.log('DB Mongoose Connected')
-} catch (error) {
 
-    console.log(error)
-    
-}
 
 //Configuracion para Soporte 
 
@@ -51,6 +44,7 @@ app.set('view engine', 'handlebars'); //Configuracion para decirle a express que
 
 
 //usamos session con MONGODB
+
 app.use(session({
     store: MongoStore.create({
        client: mongoose.connection.getClient(), //reutilizo la coneccion que especifique arriba para no volver a hacer 2 conexiones
@@ -84,7 +78,7 @@ app.use(passport.session());
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/views',viewsRouter);
-app.use('/api/users',userRouter);
+//app.use('/api/users',userRouter); se usa sessions
 app.use('/api/cookies',userCookies);
 app.use('/api/sessions', sessionsRouter);
 
@@ -109,7 +103,7 @@ socketServer.on('connection', async socket=>{
 
     const productManager = new ProductsManagerDB()
 
-    const products=await productManager.getProducts()
+    const products=await productManager.getAllProducts()
 
     socketServer.emit('real_time_products', {products:products});
 

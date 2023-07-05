@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 //import { Command } from "commander";
 
 //const program=new Command();
@@ -18,12 +19,16 @@ dotenv.config({
 });
 */
 
+
+
 dotenv.config();
 
-export default{
-    port:process.env.PORT,
+export default {
+    port: process.env.PORT,
     mongoUrl: process.env.MONGO_URL,
-
+    secretSession: process.env.SECRET_SESSION,
+    privateKey: process.env.PRIVATE_KEY,
+    privateKeyGithub: process.env.PRIVATE_KEY_GITHUB
 }
 
-//no se envia el .env se coloca en .gitignore, el que se envia es el .env.example con descripciones
+//no se envia el .env se coloca en .gitignore, el que se envia es el .env.example con descripcionesd

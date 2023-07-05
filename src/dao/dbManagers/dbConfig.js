@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-import config from '../../config/config.js';
+import config from '../../config/dotenv.config.js';
 
-const URI = config.mongoUrl;
-
+const URL = config.mongoUrl
 try {
-    await mongoose.connect('mongodb+srv://fedeex22:Mongo1234568@cluster39760ap.pxf6a45.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect(config.mongoUrl);
     console.log('***Conectado a BDD***');
 } catch (error) {
     console.log(error);    

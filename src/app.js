@@ -18,6 +18,8 @@ import sessionsRouter from './routes/sessions.router.js';
 import MongoStore from 'connect-mongo'; //mongo para conectar los usuarios en mongo
 import initializePassport from './config/passport.config.js';
 import passport from 'passport';
+import config from './config/dotenv.config.js';
+
 
 //const fileStorage=FileStore(session); //le pasamos como parametro la session de express
 
@@ -50,11 +52,14 @@ app.use(session({
        client: mongoose.connection.getClient(), //reutilizo la coneccion que especifique arriba para no volver a hacer 2 conexiones
         ttl: 3600 //tiempo de expiracion 3600 segundos
     }),
-secret:'admin1234',
+secret:config.secretSession,
 resave:true,
 saveUninitialized:true
 }));
 //-------------------
+
+
+
 
 
 /*Sesiones usando file Storage

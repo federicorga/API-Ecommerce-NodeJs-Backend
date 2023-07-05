@@ -2,10 +2,10 @@ import { fileURLToPath } from 'url'; //Modulo de NodeJs
 import { dirname } from 'path'; //Path absoluto Modulo de NodeJS
 import bcrypt from 'bcrypt' //dependencia para hashear la contraseña (encriptarla)
 import jwt from 'jsonwebtoken'; // dependencia de JWT para json web token
+import config from './config/dotenv.config.js';
 
 
-
-const PORT = 8080;
+const PORT = config.port;
 
 const __filename = fileURLToPath(import.meta.url); //cuando trabajamos con Path la convencion es con __ doble ej: __filename
 const __dirname = dirname(__filename); //Path absoluto
@@ -26,9 +26,9 @@ export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.
 
 //JWS----- Proxima entrega sin temrinar...
 
-export const PRIVATE_KEY = 'coder39760'; //clave privada de JWT
+export const PRIVATE_KEY = config.privateKey; //clave privada de JWT
 
-export const PRIVATE_KEY_GITHUB='86d5846c845f97c62573cb334eb45c08b7f6fb0d'
+export const PRIVATE_KEY_GITHUB=config.privateKeyGithub;
 
 export const generateToken = (user) => {
     const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' }); //.sign genera el jwt y dentro de el se enveve el user, el segundo es la clave privada de cifrado de los datos

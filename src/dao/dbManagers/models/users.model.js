@@ -7,7 +7,7 @@
 import mongoose from "mongoose";
 
 
-const userCollection= 'users' //nombre de nuestra coleccion. tambien llamado Esquema
+const userCollection = 'users' //nombre de nuestra coleccion. tambien llamado Esquema
 
 //definimos la estructura de la coleccion.
 
@@ -18,23 +18,44 @@ const userCollection= 'users' //nombre de nuestra coleccion. tambien llamado Esq
 }*/
 
 //Modelo o estructura de nuestra coleccion es decir que definimos su forma.
-const userSchema =new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro.
-    first_name: {type:String,
-    required:true},
-    last_name: {type:String,
-        required:true},
-    email: {
-        type:String,
-        unique: true, // no pueden haber 2 usuarios con el mismo email.
-        required:true, // que el campo sea si o si requerido
+const userSchema = new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro.
+    first_name: {
+        type: String,
+        required: true
     },
-    age:{type:String,
-    required:true},
-    password:{type:String},
-    cart:{type:mongoose.Schema.Types.ObjectId, ref:"carts",
-    default:[]},
-    role:{type:Boolean,
-    default:false}
+    last_name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        unique: true, // no pueden haber 2 usuarios con el mismo email.
+        required: true, // que el campo sea si o si requerido
+    },
+    age: {
+        type: String,
+        required: true
+    },
+    password: { type: String },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId, ref: "carts",
+        default: []
+    },
+    role: {
+        type: String,
+        default: 'user'
+    },
+    orders:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'tickets'
+
+        }
+    ]
+});
+
+userSchema.pre('find', function(){ //como un middleware que trae el modelo tickets completo a usuario
+    this.populate('tickets');
 });
 
 const userModel = mongoose.model(userCollection, userSchema); //Esquema y modelo (parte funcional).

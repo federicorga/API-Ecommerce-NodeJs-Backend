@@ -1,59 +1,104 @@
 //(2) importamos de config el DAO ya instanciado
-import { PRODUCTSDAO } from "../dao/configDao.js";
 
+import ProductsRepository from '../repositories/products.repository.js';
 
-const getProducts = async() =>{
-   const products= await PRODUCTSDAO.getAllProducts();
+const productsRepository = new ProductsRepository();
+const getAllProducts = async () => {
+    const products = await productsRepository.getAllProducts();
     return products;
 }
 
-const getProductsOrganized = async(limit,page,query,sort)=>{
-    const products = await PRODUCTSDAO.getAllProductsOrganized(limit,page,query,sort);
+const getAllProductsOrganized = async (limit = 10, page = 1, query = false, sort = false) => {
+    if (isNaN(page)) return 'La página especificada no existe';
+    const products = await productsRepository.getAllProductsOrganized(limit, page, query, sort);
+    if (page > products.totalPages || page <= 0) {
+        return 'La página especificada no existe';
+    }
     return products;
 }
 
-const addProducts = async (newProduct) => {
-const product= await PRODUCTSDAO.addAllProducts(newProduct);
-return product;
+const addOneProduct = async (newProduct) => {
+    const codeRepetido = await esCodeRepetido(newProduct.code);
+    const checkEmpty = checkEmptyObject(newProduct);
+    if (codeRepetido || checkEmpty) {
+        console.log("producto no agregado");
+        return "producto no agregado";
+    }
+    const product = await productsRepository.addOneProduct(newProduct);
+    if (product) console.log("producto agregado a la lista");
+    return product;
 };
 
-const updateProduct = async (id, product) => {
-
-    const result = await PRODUCTSDAO.updateOneProduct(id,product);
+const updateOneProduct = async (id, product) => {
+    const result = await productsRepository.updateOneProduct(id, product);
     return result;
 };
 
-const deleteProduct = async (id) => {
-    const result = await PRODUCTSDAO.deleteOneProduct(id);
+const deleteOneProduct = async (id) => {
+    const result = await productsRepository.deleteOneProduct(id);
     return result;
 
 };
-const getProductId = async (id) => {
-    const product = await PRODUCTSDAO.getProductById(id);
+const getProductById = async (id) => {
+    const product = await productsRepository.getProductById(id);
+    if (!product) throw new Error("the product not exist.");
     return product;
 
 };
 
-const getProductsForCategory = async (category) => {
+const getAllProductForCategory = async (category) => {   
 
-    const result = await PRODUCTSDAO.getAllProductForCategory(category);
+    const result = await productsRepository.getAllProductForCategory(category);
     return result;
 
 };
 
-const getProductForAscDesc = async (ascDes) => {
-    const result = await PRODUCTSDAO.getAllProductForAscDesc(ascDes);
+const getAllProductForAscDesc = async (ascDes) => {
+    const result = await productsRepository.getAllProductForAscDesc(ascDes);
     return result;
 };
 
+//---------------------------Auxilares Funciones
 
-export{
-getProducts,
-getProductsOrganized,
-addProducts, 
-updateProduct, 
-deleteProduct, 
-getProductId,
-getProductsForCategory,
-getProductForAscDesc
+const esCodeRepetido = async (code) => {
+    // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
+    const products = await this.getAllProducts();
+
+    const codeExiste = products.find(products => products.code === code);
+
+
+    if (codeExiste) {
+        console.log('error code se repite');
+        return true; // se repite
+    }
+
+    return false; // no se repite;
+
+
+};
+
+const checkEmptyObject = (object) => {
+    //verifica si el valor de algun elemento del objeto es vacio(indefinido,etc).
+    for (const key in object) {
+        if (object[key] === "" ||
+            object[key] === undefined ||
+            object[key] === null ||
+            object[key] === false)
+            return true; //el objeto posee elementos vacios o falsos.
+    }
+
+    return false; //el objeto no posee elemento vacios o falsos.
+}
+
+
+
+export {
+    getAllProducts,
+    getAllProductsOrganized,
+    addOneProduct,
+    updateOneProduct,
+    deleteOneProduct,
+    getProductById,
+    getAllProductForCategory,
+    getAllProductForAscDesc
 }

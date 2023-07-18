@@ -1,14 +1,14 @@
-import { MessagesDAO } from "../dao/configDao.js";
+import MessagesRepository from "../repositories/messages.repository.js";
 
-
-
+const messagesRepository=new MessagesRepository();
+ 
 const getMessages=async()=>{
-    const messages=MessagesDAO.getAll();
+    const messages=messagesRepository.getMessages();
     return messages;
 }
 
 const saveMessage=async(message)=>{
-    const result =MessagesDAO.save(message);
+    const result =messagesRepository.saveMessage(message);
     return result;
 }
 

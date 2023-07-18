@@ -14,7 +14,7 @@ process.on('message',data=>{
 });
 
 
-console.log('Hola mundo') //no da error
+//console.log('Hola mundo') //no da error
 
 //console.log(test); // da error ya que es una variable no declarada o definida
 

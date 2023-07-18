@@ -1,17 +1,17 @@
-import { messageModel } from "./models/messages.model.js"
+import { messageModel } from "../models/messages.model.js"
 
-export default class MessagesManagerDB{
+export default class MessagesManager{
 
     constructor(){
         console.log("Working message with DB")
     }
 
-    getAll=async()=>{
+    getMessages=async()=>{
         const messages=await messageModel.find().lean(); //con esto evitamos hacer el map
         return messages;
     }
 
-    save=async(message)=>{
+    saveMessage=async(message)=>{
         const result = await messageModel.create(message);
         return result;
     }

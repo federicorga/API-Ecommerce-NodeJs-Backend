@@ -1,81 +1,130 @@
 
-import { 
-    getCarts as getCartsService,
-    getCartId as getCartIdService,
-    getCartdWithProduct as getCartdWithProductService,
-    addCart as addCartService,
-    addOProductInCart as addOProductInCartService,
-    QuantityProductCart as QuantityProductCartService,
-    cleanCart as cleanCartService,
-    deleteProductCart as deleteProductCartService
-} from '../services/cart.service.js'
+
+import * as cartService from '../services/cart.service.js'
+
+const getAllCarts = async (req, res) => { //obtengo todos los carritos
+    try {
+        const result = await cartService.getAllCarts();
+        return res.send({ status: 'success', result: result });
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+
+};
+
+const addNewCart = async (req, res) => { // agrego nuevo carrito.
+    try {
+        const result = await cartService.addNewCart();
+        return res.send({ status: 'success', result: `${result}` });
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
 
 
-    const getCarts = async(req,res)=>{ //obtengo todos los carritos
-        const result= await getCartsService();
-        return res.send({status: 'success', result: result});
-        
-    };
-    
-    const addCart = async (req,res)=>{ // agrego nuevo carrito.
-        const result = await addCartService();
-            return res.send({status:'success', result:`${result}`});
-        
-    
-    };
-    
-    const getCartdWithProduct= async(req,res)=>{ //obtengo el carrito especificado por id
-        const cartId= req.params.cid;
-        const cart= await getCartdWithProductService(cartId); // trae el producto completo
-        
-        cart? res.send(cart):res.send("Producto no encontrado");
-    
-    };
-    
-    const addOProductInCart= async(req,res)=>{ //Agrega producto al carrito.
+
+};
+
+const getCartByIdWithProduct = async (req, res) => { //obtengo el carrito especificado por id
+    try {
+        const cartId = req.params.cid;
+        const cart = await cartService.getCartByIdWithProduct(cartId); // trae el producto completo
+
+        cart ? res.send(cart) : res.send("Producto no encontrado");
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+
+
+};
+
+const addOneProductInCart = async (req, res) => { //Agrega producto al carrito.
+    try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
-        const result = await addOProductInCartService(cartId,productId);
+        const result = await cartService.addOneProductInCart(cartId, productId);
         return res.send(result);
-    };
-    
-    const QuantityProductCart= async(req,res)=>{ //actualiza la cantidad de productos agregados en le carrito.
-    const cartId=req.params.cid;
-    const productId=req.params.pid;
-    const quantity=req.body.quantity;
-    const result =await QuantityProductCartService(cartId,productId,quantity)
-    
-    return res.send(result);
-    };
-    
-    
-    
-    const cleanCart= async(req,res)=>{ //limpio el carrito especificado por id (el carrito sigue existiendo)
-        try {
-            const cartId=req.params.cid;
-            const result = await cleanCartService(cartId);
-            return res.send(result);  
-        } catch (error) {
-            res.send(500).send({status:'error',error});  
-        }
-       
-    };
-    
-    const deleteProductCart= async(req,res)=>{ //elimina un producto del carrito
-    const cartId=req.params.cid;
-    const productId=req.params.pid;
-    
-    const result= await deleteProductCartService(cartId,productId);
-    return res.send(result);
-    };
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
 
-export{
+};
 
-    getCarts,
-    getCartdWithProduct,
-    addCart,
-    addOProductInCart,
-    QuantityProductCart,
-    cleanCart,
-    deleteProductCart
+const modifyQuantityCart = async (req, res) => { //actualiza la cantidad de productos agregados en le carrito.
+    try {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+        const quantity = req.body.quantity;
+        const result = await cartService.modifyQuantityCart(cartId, productId, quantity)
+
+        return res.send(result);
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+
+};
+
+
+
+const cartClean = async (req, res) => { //limpio el carrito especificado por id (el carrito sigue existiendo)
+
+    try {
+        const cartId = req.params.cid;
+        const result = await cartService.cartClean(cartId);
+        return res.send(result);
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+
+};
+
+const updateCart=async(req,res)=>{
+    try {
+        const cartId=req.params.cid
+        const productId =req.body;
+        const result = await cartService.updateCart(cartId,productId)
+        return res.send(result)
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+  
+  }
+
+const deleteProductInCart = async (req, res) => { //elimina un producto del carrito
+    try {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+
+        const result = await cartService.deleteProductInCart(cartId, productId);
+        return res.send(result);
+
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+    }
+
+};
+
+const closeCart=async(req,res)=>{
+    try {
+        const cartId=req.params.cid;
+        const user = req.user;
+        const result = await cartService.closeCart(cartId,user);
+        return result;
+    } catch (error) {
+        res.status(500).send({ status: 'error', message: error.message });
+        
+    }
+}
+
+export {
+
+
+    getAllCarts,
+    addNewCart,
+    getCartByIdWithProduct,
+    addOneProductInCart,
+    modifyQuantityCart,
+    cartClean,
+    updateCart,
+    deleteProductInCart,
+    closeCart
 }

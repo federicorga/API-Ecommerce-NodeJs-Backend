@@ -18,17 +18,16 @@ dotenv.config({
     './.env.development': './.env.production' //toma los valores o de desarrollo o de produccion dependiendo de lo que le pasemos 
 });
 */
-
-
-
 dotenv.config();
 
 export default {
     port: process.env.PORT,
+    persistence: process.env.PERSISTENCE, //persistencia de DAO
     mongoUrl: process.env.MONGO_URL,
     secretSession: process.env.SECRET_SESSION,
     privateKey: process.env.PRIVATE_KEY,
     privateKeyGithub: process.env.PRIVATE_KEY_GITHUB
+
 }
 
 //no se envia el .env se coloca en .gitignore, el que se envia es el .env.example con descripcionesd

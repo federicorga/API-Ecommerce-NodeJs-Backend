@@ -1,23 +1,25 @@
- import { UserDAO } from "../dao/configDao.js";
 
 
- const getUser = async(email) =>{
-    const user= await UserDAO.getOneUser(email)
+import UsersRepository from '../repositories/user.repository.js';
+
+const usersRepository = new UsersRepository();
+
+ const getOneUser = async(email) =>{
+    const user= await usersRepository.getOneUser(email)
      return user;
  };
 
- const addUser = async(newUser)=>{
-    const result = await UserDAO.addNewUser(newUser);
-    return result;
+ const addNewUser = async(newUser)=>{
+    const result = await usersRepository.addNewUser(newUser);
+    return result;  
  }
-
- const updatePassword = async(email,user)=>{
-    const result = await UserDAO.updatePasswordUser(email,user);
+ const updatePasswordUser = async(email,user)=>{
+    const result = await usersRepository.updatePasswordUser(email,user);
     return result
  }
 
  export{
-    getUser,
-    addUser,
-    updatePassword
+   getOneUser,
+   addNewUser,
+   updatePasswordUser
  }

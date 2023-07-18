@@ -1,9 +1,9 @@
-import userModel from './models/users.model.js'
+import userModel from '../models/users.model.js'
 
 
-export default class UserManagerDB{
+export default class UserManager{
     constructor(){
-        console.log("working Users whit DB")
+        console.log("working Users with DB")
     }
 
     getOneUser= async (email)=>{

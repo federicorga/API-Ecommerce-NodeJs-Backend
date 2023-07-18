@@ -24,7 +24,7 @@ export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.
 //con esto validamos la contraseña
 
 
-//JWS----- Proxima entrega sin temrinar...
+
 
 export const PRIVATE_KEY = config.privateKey; //clave privada de JWT
 

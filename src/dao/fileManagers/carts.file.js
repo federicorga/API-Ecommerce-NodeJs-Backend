@@ -8,10 +8,11 @@ export default class CartManager{
 
     constructor(path){
         this.path = path;
+        console.log('Working Carts with File')
     }
 
 
-    getCarts = async () => {
+    getAllCarts = async () => {
 
         try {
 
@@ -34,7 +35,7 @@ export default class CartManager{
 
         try {
            
-            const carts = await this.getCarts();
+            const carts = await this.getAllCarts();
 
          const cart={
             products:[]
@@ -57,9 +58,9 @@ export default class CartManager{
 
     }
 
-    addProductInCart=async(cartId,productId)=>{
+    addOneProductInCart=async(cartId,productId)=>{
 
-        const carts = await this.getCarts();
+        const carts = await this.getAllCarts();
         const productById = await productManager.getProductById(productId); 
         carts.forEach((cart)=>{
         if(cart.id === cartId && productById.id===productId){
@@ -105,7 +106,7 @@ export default class CartManager{
 
     getCartById = async (id) => {
         try {
-            const carts = await this.getCarts();
+            const carts = await this.getAllCarts();
 
             const cart = carts.find(cart => cart.id === id);
 

@@ -4,12 +4,13 @@ import fs from 'fs';
 
 export default class ProductManager {
 
-    constructor(path) {
+    constructor(path) { //path es camino es decir que se debe especificar el archivo
 
         this.path = path;
+        console.log ('Working products whit File')
     }
 
-    getProducts = async () => {
+    getAllProducts = async () => {
 
         try {
 
@@ -28,10 +29,10 @@ export default class ProductManager {
 
     }
 
-    addProducts = async (product) => {
+    addAllProducts = async (product) => {
 
         try {
-            const products = await this.getProducts();
+            const products = await this.getAllProducts();
             const checkLenght=this.checkLenghtObject(product);
             const codeRepetido = await this.esCodeRepetido(product.code);
             const checkInvalidKey=this.checkInvalidKey(product); 
@@ -102,7 +103,7 @@ export default class ProductManager {
 
     getProductById = async (id) => {
         try {
-            const products = await this.getProducts();
+            const products = await this.getAllProducts();
 
             const producto = products.find(producto => producto.id === id);
 
@@ -120,12 +121,12 @@ export default class ProductManager {
 
     }
 
-    updateProduct = async (id, newParams) => {
+    updateOneProduct = async (id, newParams) => {
 
 
         try {
             const product = await this.getProductById(id);
-            let products = await this.getProducts();
+            let products = await this.getAllProducts();
             const productKey = Object.keys(product);
             const newParamsKey = Object.keys(newParams);
             console.log(productKey);
@@ -147,10 +148,10 @@ export default class ProductManager {
 
     }
 
-    deleteProduct = async (id) => {
+    deleteOneProduct = async (id) => {
 
         try {
-            const products = await this.getProducts();
+            const products = await this.getAllProducts();
             const indice = products.findIndex(product => product.id === id);
             if (indice !== -1) {
                 products.splice(indice, 1);
@@ -232,7 +233,7 @@ export default class ProductManager {
 
     esCodeRepetido = async(code) => { 
         // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
-        const products = await this.getProducts();
+        const products = await this.getAllProducts();
 
         const codeExiste = products.find(products => products.code === code);
 

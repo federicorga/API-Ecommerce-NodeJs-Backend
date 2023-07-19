@@ -15,7 +15,8 @@ import {
 
 import {    jwtMiddlewareAuthenticate,
     githubMiddlewareRegister,
-    githubMiddlewareLogin} from '../middleware/passportSessions.middleware.js'
+    githubMiddlewareLogin,
+    authorizationRole} from '../middleware/passportSessions.middleware.js'
 const router = Router();
 
 

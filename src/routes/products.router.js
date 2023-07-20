@@ -8,7 +8,9 @@ import {
     updateOneProduct
 } from '../controller/products.controller.js'
 
-import { authorizationRole,jwtMiddlewareAuthenticate } from '../middleware/passportSessions.middleware.js';
+import { authorizationRole,jwtMiddlewareAuthenticate } from '../middlewares/passportSessions.middleware.js';
+
+import { routingError } from '../middlewares/errors/routingError.middleware.js';
 
 const router = Router();
 
@@ -17,5 +19,7 @@ router.get('/:pid', getProductById); //obtengo producto especifico por ID
 router.post('/',jwtMiddlewareAuthenticate, authorizationRole(['admin']),addOneProduct); //agrego nuevo producto a la lista de productos
 router.delete('/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin']),deleteOneProduct); //elimino un producto de la lista por ID
 router.put('/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin']),updateOneProduct); //modifico un producto de la lista por ID
+
+router.use(routingError)
 
 export default router

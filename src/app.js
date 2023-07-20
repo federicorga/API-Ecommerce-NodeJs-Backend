@@ -12,7 +12,8 @@ import passport from 'passport';
 //SESSIONS-MONGO
 //import {sessionMongo} from './config/sessionsMongo.config.js';
 
-
+//Compressor
+import compression from 'express-compression';
 
 //ROUTERS
 import productsRouter from './routes/products.router.js';
@@ -22,11 +23,12 @@ import userCookies from './routes/cookies.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 //import userRouter from './routes/users.router.js' //fuera de uso, se usa session
 
+//MOKING ROUTER
+import mokingRouter from './routes/moking.router.js'
+
 //MANAGER PARA SOCKET
 import ProductsManagerDB from './dao/dbManagers/classes/products.mongo.js';
 import MessagesManager from './dao/dbManagers/classes/messages.mongo.js';
-
-
 
 //-----
 
@@ -38,6 +40,8 @@ import dotenvConfig from './config/dotenv.config.js';//DOTENV PARA SESSION
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo'; //mongo para conectar los usuarios en mongo
 
+//ERRORS
+import errorHandler from './middlewares/errors/errors.middleware.js'; //Middleware de Errors (Manejador de errores)
 
 
 const app = express();
@@ -78,6 +82,10 @@ app.use(passport.initialize()); //se utiliza para inicializar Passport y agregar
 app.use(passport.session()); //se utiliza para agregar soporte de sesiones a Passport. 
 //------------------------------
 
+app.use(compression({
+    brotli:{enable:true, zlib:{}} //trabjamos con brotli que comprime un 30% mas eficiente que compression solo.
+    //Zlib es el nivel de compresion que en el caso de usar brotli debe ir vacio (entre mas nivel mayor compresion del 1 a 9)
+})); //comprime los request para enviar al frontend con menor tamaño
 
 //RUTAS
 app.use('/api/products', productsRouter);
@@ -85,9 +93,11 @@ app.use('/api/carts', cartRouter);
 app.use('/views',viewsRouter);
 app.use('/api/cookies',userCookies);
 app.use('/api/sessions', sessionsRouter);
+app.use('/moking-products',mokingRouter)// ruta moking de prueba muestra 100 productos
 //app.use('/api/users',userRouter); se usa sessions
 
-
+//ERRORES MIddleware Global
+app.use(errorHandler);
 //Levantando Server
 
 const httpServer= app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`)); //Server http

@@ -4,12 +4,12 @@ import {
     jwtMiddlewareAuthenticate,
     authorizationRole,
     passportCall
-} from '../middleware/passportSessions.middleware.js'
+} from '../middlewares/passportSessions.middleware.js'
 
 import {
     publicAccess,
     privateAccess,
-} from '../middleware/accessUsers.middleware.js'
+} from '../middlewares/accessUsers.middleware.js'
 
 import {
     dashBoardRender,
@@ -23,6 +23,8 @@ import {
     resetRender
 } from '../controller/views.controller.js'
 
+import { routingError } from '../middlewares/errors/routingError.middleware.js';
+
 const router = Router();
 
 
@@ -35,5 +37,9 @@ router.get('/register', publicAccess, registerRender); //vista de registro
 router.get('/login', publicAccess, loginRender); //vista de login
 router.get('/profile', jwtMiddlewareAuthenticate, privateAccess, profileRender); //vista de perfil
 router.get('/reset', publicAccess, resetRender); // reseteo de contraseña
+
+router.use(routingError) //captura todas las rutas que no coincidan y devuelven error
+
+
 
 export default router;

@@ -8,8 +8,9 @@ import {
     saveSignedCookie,
     addNewCookie
 } from '../controller/cookies.controller.js';
-
+import { routingError } from '../middlewares/errors/routingError.middleware.js';
 const router = Router();
+
 
 
 router.get('/set-cookie', setCookie); //obtener cookie seteada (codificada);
@@ -18,5 +19,7 @@ router.get('/delete-cookie/:cookie', deleteOneCookie); //eliminar cookie especif
 router.get('/set-signed-cookie', signedCookie); //firmar la cookie
 router.get('/signed-cookie', saveSignedCookie); //se alamcena la cookie firmada
 router.post('/', addNewCookie) //crear nueva cookie
+
+router.use(routingError)
 
 export default router

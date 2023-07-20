@@ -2,7 +2,7 @@
 import * as productsService from '../services/products.service.js'
 import * as messagesService from '../services/messages.service.js'
 import * as cartService from '../services/cart.service.js'
-import { privateAccess, publicAccess } from '../middleware/accessUsers.middleware.js';
+import { privateAccess, publicAccess } from '../middlewares/accessUsers.middleware.js';
 
 const dashBoardRender = async (req, res) => { //usando SocketIo
     try {

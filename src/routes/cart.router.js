@@ -12,8 +12,9 @@ import{
     
 }from '../controller/cart.controller.js'
 
-import { authorizationRole } from '../middleware/passportSessions.middleware.js';
-import { jwtMiddlewareAuthenticate } from '../middleware/passportSessions.middleware.js';
+import { authorizationRole } from '../middlewares/passportSessions.middleware.js';
+import { jwtMiddlewareAuthenticate } from '../middlewares/passportSessions.middleware.js';
+import { routingError } from '../middlewares/errors/routingError.middleware.js';
 const router = Router();
 
 
@@ -27,6 +28,7 @@ router.put("/:cid", jwtMiddlewareAuthenticate,authorizationRole(['admin','user']
 router.delete('/:cid/products/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin','user']),deleteProductInCart); //elimino producto en carrito
 router.get('/:cid/purchase',jwtMiddlewareAuthenticate,authorizationRole(['admin','user']),closeCart) //finalizacion de compra
 
+router.use(routingError)
 
 
 export default router;

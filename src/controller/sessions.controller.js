@@ -1,12 +1,33 @@
 
 import { authToken, createHash, generateToken, isValidPassword } from '../utils.js';
 
+import CustomError from '../middlewares/Errors/CustomError.js';
+import EErrors from '../middlewares/errors/enums.js';
+import * as generateError from '../middlewares/errors/info.js';
 import * as userService from '../services/user.service.js'
 import * as cartService from '../services/cart.service.js'
 
 const registerUser = async (req, res) => {
+   
+    const { first_name, last_name, email, age, password } = req.body;
     try {
-        const { first_name, last_name, email, age, password } = req.body;
+        
+    } catch (error) {
+        
+    }
+    if (!first_name || !last_name || !email || !password){
+        throw CustomError.createError({
+            name: 'UserError',
+            cause: generateError.userErrorInfo({
+                first_name,
+                last_name,
+                email,
+                password
+            }),
+            message: 'Error trying to create user',
+            code: EErrors.INVALID_TYPE_ERROR
+        });
+    }
         const cart = await cartService.addNewCart(); //se genera un nuevo carrito para el usuario
         const exists = await userService.getOneUser({ email });
         if (exists) {
@@ -24,10 +45,6 @@ const registerUser = async (req, res) => {
         const accessToken = generateToken(result); //generamos el token al registrar
         res.send({ status: 'success', message: 'User registered', access_token: accessToken })
 
-    } catch (error) {
-
-        res.status(500).send({ status: 'error', error: error.message });
-    }
 
 };
 const sessionsVisits = (req, res) => {
@@ -44,9 +61,21 @@ const sessionsVisits = (req, res) => {
     }
 
 };
+
 const loginUser = async (req, res) => {
-    try {
+    
         const { email, password } = req.body;
+
+        if(!email || ! password) throw CustomError.createError({
+            name:'loginError',
+            cause:generateError.loginErrorInfo({
+                email,
+                password
+            }),
+            message: 'Error trying to login user',
+            code: EErrors.AUTHENTICATION_ERROR
+        });
+        
         const user = await userService.getOneUser({ email: email }); //busco en la BD
         if (!user) return res.status(400).send({ status: 'error', error: 'Invalid credentials' });
         if (!isValidPassword(user, password)) return res.status(400).send({ status: 'error', error: 'Invalid password' });//verifica si las contraseñas coinicden
@@ -64,16 +93,12 @@ const loginUser = async (req, res) => {
             // y esta cookie solo estara valida a travez de una peticion html con httpOnly(le da seguridad)
         ).send({ status: 'success' })
 
-    } catch (error) {
-        res.status(500).send({ status: 'error', error: error.message });
-    }
 
 };
 
 const jwtAuthenticateUser = (req, res) => {
     try {
-        //trabajamos con un middleware de jwt passport y ponemos el nombre de la estrategia register de config
-        //sessions false es porque ya no se trabaja con session
+        
         res.send({ status: 'success', payload: req.user });
     } catch (error) {
         res.status(500).send({ status: 'error', error: error.message });

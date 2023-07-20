@@ -3,6 +3,8 @@ import { dirname } from 'path'; //Path absoluto Modulo de NodeJS
 import bcrypt from 'bcrypt' //dependencia para hashear la contraseña (encriptarla)
 import jwt from 'jsonwebtoken'; // dependencia de JWT para json web token
 import config from './config/dotenv.config.js';
+import { faker } from '@faker-js/faker/locale/es'; //importamos Faker para trabajar con Mock y en español (es)
+
 
 
 const PORT = config.port;
@@ -22,9 +24,6 @@ export const createHash= password=> bcrypt.hashSync(password,bcrypt.genSaltSync(
 export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.password);
 //el primer password es el que llega del login y el segundo user.password es el que ya esta hasheado y se comparan.
 //con esto validamos la contraseña
-
-
-
 
 export const PRIVATE_KEY = config.privateKey; //clave privada de JWT
 
@@ -50,3 +49,6 @@ export const authToken = (req, res, next) => { //Midellware de autenticacion de 
         next();
     });
 };
+
+
+//-----FAKE

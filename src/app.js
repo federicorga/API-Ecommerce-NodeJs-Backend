@@ -21,6 +21,7 @@ import cartRouter from './routes/cart.router.js';
 import viewsRouter from './routes/views.router.js';
 import userCookies from './routes/cookies.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import loggerTestRouter from './routes/loggerTest.router.js';
 //import userRouter from './routes/users.router.js' //fuera de uso, se usa session
 
 //MOKING ROUTER
@@ -42,6 +43,10 @@ import MongoStore from 'connect-mongo'; //mongo para conectar los usuarios en mo
 
 //ERRORS
 import errorHandler from './middlewares/errors/errors.middleware.js'; //Middleware de Errors (Manejador de errores)
+
+//LOGGERS
+import {addLogger } from './loggers/logger.js';
+import {logger} from './loggers/logger.js';
 
 
 const app = express();
@@ -87,6 +92,10 @@ app.use(compression({
     //Zlib es el nivel de compresion que en el caso de usar brotli debe ir vacio (entre mas nivel mayor compresion del 1 a 9)
 })); //comprime los request para enviar al frontend con menor tamaño
 
+
+//LOGGER
+app.use(addLogger)
+
 //RUTAS
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
@@ -94,19 +103,23 @@ app.use('/views',viewsRouter);
 app.use('/api/cookies',userCookies);
 app.use('/api/sessions', sessionsRouter);
 app.use('/moking-products',mokingRouter)// ruta moking de prueba muestra 100 productos
+app.use('/loggerTest',loggerTestRouter)
 //app.use('/api/users',userRouter); se usa sessions
+
+
+
 
 //ERRORES MIddleware Global
 app.use(errorHandler);
 //Levantando Server
 
-const httpServer= app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`)); //Server http
+const httpServer= app.listen(PORT, () => logger.info(`Server running on port http://localhost:${PORT}`)); //Server http
 const socketServer= new Server(httpServer); //server Socket.io
 
 
 //handshake ( saludo de manos, servidor ligado).
 socketServer.on('connection', async socket=>{
-    console.log("Nuevo cliente conectado") //cuando abro una nueva pestaña del navegador deberia mostrarse lo que esta dentro de esta conexion.
+    logger.info("Nuevo cliente conectado") //cuando abro una nueva pestaña del navegador deberia mostrarse lo que esta dentro de esta conexion.
     socket.on('message', data=>{ //lee el evento del frontend llamado mensaje y lo muestra.
         //console.log(data) - muestra los datos de mensaje en la consola usar para configurar
     });

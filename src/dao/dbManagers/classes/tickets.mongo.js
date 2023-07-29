@@ -1,9 +1,9 @@
 import { ticketModel } from '../models/tickets.mode.js';
-
+import {logger} from "../../../loggers/logger.js";
 
 export default class TicketManager {
     constructor(){
-        console.log('Working Tickets with DB')
+      logger.info('Working Tickets with DB')
     }
     getTickets= async ()=>{
         const result = await ticketModel.find();

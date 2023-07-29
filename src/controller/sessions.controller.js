@@ -13,6 +13,7 @@ const registerUser = async (req, res) => {
     try {
         
     } catch (error) {
+         req.logger.error(error.message);
         
     }
     if (!first_name || !last_name || !email || !password){
@@ -57,6 +58,7 @@ const sessionsVisits = (req, res) => {
             res.send(`Bienvenido`)
         }
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -101,6 +103,7 @@ const jwtAuthenticateUser = (req, res) => {
         
         res.send({ status: 'success', payload: req.user });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
 
     }
@@ -110,6 +113,7 @@ const failLogin = async (req, res) => { //passport redirige a esta rutra si el r
     try {
         res.send({ status: 'error', message: 'Login failed!' })
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -126,6 +130,7 @@ const resetPasswordUser = async (req, res) => {
         res.send({ status: 'success', message: 'Password reset!' })
 
     } catch (error) {
+         req.logger.error(error.message);
 
         res.status(500).send({ status: 'error', error: error.message });
 
@@ -140,6 +145,7 @@ const logoutUser = (req, res) => {
             res.redirect('/views/login'); //con esto redireccionamos a la ruta raiz al finalizar la sesion
         });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -149,6 +155,7 @@ const gitHubRegister = async (req, res) => {
     try {
         res.send({ status: "success", message: "User registered" })
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -162,6 +169,7 @@ const gitHubLogin = async (req, res) => {
         req.session.user = req.user;
         res.redirect('/views/profile');
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 

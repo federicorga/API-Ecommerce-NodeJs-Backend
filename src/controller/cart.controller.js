@@ -1,5 +1,4 @@
 
-
 import * as cartService from '../services/cart.service.js'
 
 const getAllCarts = async (req, res) => { //obtengo todos los carritos
@@ -7,6 +6,7 @@ const getAllCarts = async (req, res) => { //obtengo todos los carritos
         const result = await cartService.getAllCarts();
         return res.send({ status: 'success', result: result });
     } catch (error) {
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -17,6 +17,7 @@ const addNewCart = async (req, res) => { // agrego nuevo carrito.
         const result = await cartService.addNewCart();
         return res.send({ status: 'success', result: `${result}` });
     } catch (error) {
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -31,6 +32,7 @@ const getCartByIdWithProduct = async (req, res) => { //obtengo el carrito especi
 
         cart ? res.send(cart) : res.send("Producto no encontrado");
     } catch (error) {
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -44,6 +46,7 @@ const addOneProductInCart = async (req, res) => { //Agrega producto al carrito.
         const result = await cartService.addOneProductInCart(cartId, productId);
         return res.send(result);
     } catch (error) {
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -58,6 +61,7 @@ const modifyQuantityCart = async (req, res) => { //actualiza la cantidad de prod
 
         return res.send(result);
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -72,6 +76,7 @@ const cartClean = async (req, res) => { //limpio el carrito especificado por id 
         const result = await cartService.cartClean(cartId);
         return res.send(result);
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -84,6 +89,7 @@ const updateCart=async(req,res)=>{
         const result = await cartService.updateCart(cartId,productId)
         return res.send(result)
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
   
@@ -98,6 +104,7 @@ const deleteProductInCart = async (req, res) => { //elimina un producto del carr
         return res.send(result);
 
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -110,6 +117,7 @@ const closeCart=async(req,res)=>{
         const result = await cartService.closeCart(cartId,user);
         return result;
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
         
     }

@@ -1,7 +1,7 @@
 import CartRepository from '../repositories/cart.repository.js';
 import ProductRepository from '../repositories/products.repository.js'
 import { createTicket } from './tickets.service.js';
-
+import {logger} from '../loggers/logger.js';
 const cartRepository= new CartRepository();
 const productRepository =new ProductRepository();
 
@@ -67,7 +67,7 @@ const updateCart=async(cartId,productId)=>{
 const deleteProductInCart = async (cartId, productId) => {
     const cart = await cartRepository.getCartById(cartId); //existe el carrito
     const existingProduct = cart.products.find((item) => item.product.toString() === productId); //existe el producto en el carrito
-    console.log(existingProduct);
+    logger.warning(existingProduct);
     if (!cart) return { error: "Cart not found" };
     if (!existingProduct) return { error: "product in cart not found" }
     const result = await cartRepository.deleteProductInCart(cart,existingProduct);

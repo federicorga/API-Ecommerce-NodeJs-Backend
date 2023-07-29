@@ -1,5 +1,5 @@
 import { CartDAO } from "../dao/factory.js";
-
+import {logger} from "../loggers/logger.js";
 
 export default class CartRepository {
     constructor() { //recibe el dao de memoria o mongodb
@@ -27,7 +27,7 @@ export default class CartRepository {
             products: [],
           };
         const newCart = await this.dao.addNewCart(cartStruct);
-        if (newCart)console.log("Carrito generado");
+        if (newCart)logger.info("Carrito generado");
         return newCart;
 
     };

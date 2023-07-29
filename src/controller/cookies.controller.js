@@ -8,6 +8,7 @@ const setCookie = (req, res) => { //seteamos la cookie
         //Si no colocamos el parámetro maxAge, la cookie persistirá hasta ser borrada (sin tiempo de vida definido).
         //la cookie la podemos ver en el navegador en application cookies
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -18,6 +19,7 @@ const getAllcookies = (req, res) => {
     try {
         res.send(req.cookies); // con esto obtenemos el listado de todas las cookies que tenemos almacenadas hasta el momento (no firmadas)
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -28,6 +30,7 @@ const deleteOneCookie = (req, res) => {
         const cookie = req.params.cookie;
         res.clearCookie(cookie).send('Cookie removida'); //tenemos que pasar el valor de la cookie que queremos limpiar
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -40,6 +43,7 @@ const signedCookie = (req, res) => {
         //las cookies firmadas se guardan en otro lugar 
         //esto permite invalidar si la cookie fue  modificada como invalid cookie
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -49,6 +53,7 @@ const saveSignedCookie = (req, res) => {
     try {
         res.send(req.signedCookies) //se almacenan aca las cookies firmadas
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -59,6 +64,7 @@ const addNewCookie = (req, res) => {
         const data = req.body;
         res.cookie('CoderCookie', data, { maxAge: 1000 }).send({ status: 'succes', message: 'cookie set' });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 

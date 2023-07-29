@@ -1,6 +1,7 @@
 //(2) importamos de config el DAO ya instanciado
 
 import ProductsRepository from '../repositories/products.repository.js';
+import {logger} from '../loggers/logger.js';
 
 const productsRepository = new ProductsRepository();
 const getAllProducts = async () => {
@@ -21,11 +22,11 @@ const addOneProduct = async (newProduct) => {
     const codeRepetido = await esCodeRepetido(newProduct.code);
     const checkEmpty = checkEmptyObject(newProduct);
     if (codeRepetido || checkEmpty) {
-        console.log("producto no agregado");
+        logger.warning("producto no agregado");
         return "producto no agregado";
     }
     const product = await productsRepository.addOneProduct(newProduct);
-    if (product) console.log("producto agregado a la lista");
+    if (product) logger.info("producto agregado a la lista");
     return product;
 };
 
@@ -68,7 +69,7 @@ const esCodeRepetido = async (code) => {
 
 
     if (codeExiste) {
-        console.log('error code se repite');
+        logger.error('error code se repite');
         return true; // se repite
     }
 

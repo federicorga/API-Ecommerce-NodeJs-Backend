@@ -11,6 +11,7 @@ const dashBoardRender = async (req, res) => { //usando SocketIo
         res.render('dashboard', { products, role });
 
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 };
@@ -19,6 +20,7 @@ const chatRender = async (req, res) => {
         const messages = await messagesService.getMessages();
         res.render('chat', { messages });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 };
@@ -32,6 +34,7 @@ const ProductsRender = async (req, res) => { //visualizar productos con paginaci
             products, hasPrevPage, hasNextPage, nextPage, prevPage, limit, query, cart
         });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -43,6 +46,7 @@ const CartRender = async (req, res) => { //visualizar un carrito especifico
         let { products, _id } = await cartService.getCartByIdWithProduct(cid);
         res.render("cart", { title: "Products", style: "home", products, _id, cid });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -53,6 +57,7 @@ const cookiesRender = (req, res) => {
     try {
         res.render('cookies');
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -62,6 +67,7 @@ const registerRender = (req, res) => {
     try {
         res.render('register');
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -70,6 +76,7 @@ const loginRender = (req, res) => {
     try {
         res.render('login');
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -86,6 +93,7 @@ const profileRender = (req, res) => {// aqui vamos a mostrar los datos de usario
             role:viewsRole
         });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 
@@ -95,6 +103,7 @@ const resetRender = (req, res) => {
     try {
         res.render('reset');
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
     }
 

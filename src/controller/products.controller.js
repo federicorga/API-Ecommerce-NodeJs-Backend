@@ -11,6 +11,7 @@ const getAllProductsOrganized= async (req, res) => {
         const respound = await productsService.getAllProductsOrganized(limit, page, query, sort);
         return res.send(respound);
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -24,6 +25,7 @@ const getProductById = async (req, res) => {
         const product = await productsService.getProductById(productId);
         product ? res.send(product) : res.send("Producto no encontrado");
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -37,6 +39,7 @@ const addOneProduct= async (req, res) => {
         const result = await productsService.addOneProduct(producte);
         return res.send({ status: 'success', result: `${result}` });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -51,6 +54,7 @@ const deleteOneProduct= async (req, res) => {
         const product = await productsService.getProductById(productId);
         product ? res.send(await productsService.deleteOneProduct(productId)) : res.send("Producto no encontrado");
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -65,6 +69,7 @@ const updateOneProduct = async (req, res) => {
         const result = await productsService.updateOneProduct(productId, newProduct);
         res.send({ status: 'success', result: `${result}` });
     } catch (error) {
+         req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 

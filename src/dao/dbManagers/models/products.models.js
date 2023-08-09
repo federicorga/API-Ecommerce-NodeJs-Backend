@@ -41,6 +41,12 @@ const productSchema = new mongoose.Schema({ //se genera un ID de forma automatic
     thumbnails: {
         type: Array,
         default: []
+    },
+    owner: {
+        type:String,
+        required: true,
+        unique: true,
+        default:'admin'
     }
 });
 

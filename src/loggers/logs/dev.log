@@ -1,0 +1,6 @@
+{"level":"error","message":"Cannot read properties of undefined (reading 'getAllProducts')"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'getAllProducts')"}
+{"level":"error","message":"products validation failed: owner: Cast to ObjectId failed for value \"admin\" (type string) at path \"owner\" because of \"BSONError\""}
+{"level":"error","message":"products validation failed: owner: Cast to ObjectId failed for value \"admin\" (type string) at path \"owner\" because of \"BSONError\""}
+{"level":"error","message":"E11000 duplicate key error collection: test.products index: code_1 dup key: { code: \"12\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.products index: code_1 dup key: { code: \"12\" }"}

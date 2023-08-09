@@ -27,7 +27,10 @@ export default {
     mongoUrl: process.env.MONGO_URL,
     secretSession: process.env.SECRET_SESSION,
     privateKey: process.env.PRIVATE_KEY,
-    privateKeyGithub: process.env.PRIVATE_KEY_GITHUB
+    privateKeyGithub: process.env.PRIVATE_KEY_GITHUB,
+    userNodemailer:process.env.USER_NODEMAILER,
+    passNodemailer:process.env.PASS_NODEMAILER
+
 
 }
 

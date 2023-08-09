@@ -78,7 +78,7 @@ if (ENVRIOMENT === 'development') {
 
 const addLogger = (req, res, next) => { //middleware de loger y se setea en app.js de manera global
     req.logger = logger;
-    req.logger.http(`${req.method} es ${req.url} - ${new Date().toISOString()}`) //se define el nivel http de manera general
+    //req.logger.http(`${req.method} es ${req.url} - ${new Date().toISOString()}`) //se define el nivel http de manera general
     next();
 }
 

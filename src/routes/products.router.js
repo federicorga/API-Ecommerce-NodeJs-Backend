@@ -16,8 +16,8 @@ const router = Router();
 
 router.get('/', getAllProductsOrganized); //obtengo todos los productos
 router.get('/:pid', getProductById); //obtengo producto especifico por ID
-router.post('/',jwtMiddlewareAuthenticate, authorizationRole(['admin']),addOneProduct); //agrego nuevo producto a la lista de productos
-router.delete('/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin']),deleteOneProduct); //elimino un producto de la lista por ID
+router.post('/',jwtMiddlewareAuthenticate, authorizationRole(['admin','premium']),addOneProduct); //agrego nuevo producto a la lista de productos
+router.delete('/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin','premium']),deleteOneProduct); //elimino un producto de la lista por ID
 router.put('/:pid',jwtMiddlewareAuthenticate, authorizationRole(['admin']),updateOneProduct); //modifico un producto de la lista por ID
 
 router.use(routingError)

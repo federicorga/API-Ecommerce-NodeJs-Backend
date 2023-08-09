@@ -63,7 +63,7 @@ const getAllProductForAscDesc = async (ascDes) => {
 
 const esCodeRepetido = async (code) => {
     // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
-    const products = await this.getAllProducts();
+    const products = await productsRepository.getAllProducts();
 
     const codeExiste = products.find(products => products.code === code);
 

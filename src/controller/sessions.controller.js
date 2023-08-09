@@ -1,11 +1,15 @@
 
-import { authToken, createHash, generateToken, isValidPassword } from '../utils.js';
+import { createHash, generateToken, isValidPassword } from '../utils.js'
 
-import CustomError from '../middlewares/Errors/CustomError.js';
+import CustomError from '../middlewares/errors/CustomError.js';
+
 import EErrors from '../middlewares/errors/enums.js';
 import * as generateError from '../middlewares/errors/info.js';
 import * as userService from '../services/user.service.js'
 import * as cartService from '../services/cart.service.js'
+
+import { loginNotification } from '../utils/custom-html.js';
+import { sendEmail } from '../services/mail.service.js';
 
 const registerUser = async (req, res) => {
    
@@ -44,6 +48,7 @@ const registerUser = async (req, res) => {
         };
         const result = await userService.addNewUser(userToSave);
         const accessToken = generateToken(result); //generamos el token al registrar
+        
         res.send({ status: 'success', message: 'User registered', access_token: accessToken })
 
 
@@ -90,7 +95,9 @@ const loginUser = async (req, res) => {
             cart: user.cart
         };
         //si el login se hace de manera exitosa va a setear el req.User
-        const accessToken = generateToken(userFind); //generamos el token
+        const accessToken = generateToken(userFind); //generamos el token 
+
+
         res.cookie('eCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: false } //enviamos el accesToken a la cookie del front
             // y esta cookie solo estara valida a travez de una peticion html con httpOnly(le da seguridad)
         ).send({ status: 'success' })
@@ -100,12 +107,10 @@ const loginUser = async (req, res) => {
 
 const jwtAuthenticateUser = (req, res) => {
     try {
-        
         res.send({ status: 'success', payload: req.user });
     } catch (error) {
          req.logger.error(error.message);
         res.status(500).send({ status: 'error', error: error.message });
-
     }
 };
 
@@ -160,8 +165,6 @@ const gitHubRegister = async (req, res) => {
     }
 
 };
-
-
 
 const gitHubLogin = async (req, res) => {
 

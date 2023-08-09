@@ -1,9 +1,10 @@
 import { fileURLToPath } from 'url'; //Modulo de NodeJs
 import { dirname } from 'path'; //Path absoluto Modulo de NodeJS
-import bcrypt from 'bcrypt' //dependencia para hashear la contraseña (encriptarla)
+import bcrypt from 'bcrypt'//dependencia para hashear la contraseña (encriptarla)
 import jwt from 'jsonwebtoken'; // dependencia de JWT para json web token
 import config from './config/dotenv.config.js';
 import { faker } from '@faker-js/faker/locale/es'; //importamos Faker para trabajar con Mock y en español (es)
+import nodemailer from 'nodemailer'
 
 
 
@@ -20,8 +21,9 @@ export { __dirname, PORT};
 //hasheo vs Cifrado (hasheo significa que no podemos revertir o hacer el proceso inverso, con el cifrado podemos hacer el proceso inverso con la palabra secreta)
 
 export const createHash= password=> bcrypt.hashSync(password,bcrypt.genSaltSync(10)); //hasheamos nuestro password que recibimos como parametro y segundo parametro
+
 //es el algoritmo (es decir la cadena de texto) mientra mas rondas tenga mas segura la contraseña:bcrypt.genSaltSync(10) son 10 palabras
-export const isValidPassword=(user, password)=>bcrypt.compareSync(password,user.password);
+export const isValidPassword=(user, password)=>bcrypt.compareSync(password, user.password);
 //el primer password es el que llega del login y el segundo user.password es el que ya esta hasheado y se comparan.
 //con esto validamos la contraseña
 
@@ -52,3 +54,15 @@ export const authToken = (req, res, next) => { //Midellware de autenticacion de 
 
 
 //-----FAKE
+
+//nodeMailer
+
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth:{
+        user:config.userNodemailer,
+        pass:config.passNodemailer
+    }
+})
+

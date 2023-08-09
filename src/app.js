@@ -1,8 +1,9 @@
 //CONFIGURACION PARA SOPORTE
 import express from 'express';
 import handlebars from 'express-handlebars';
-import {Server} from 'Socket.io';
-import {__dirname, PORT} from "./utils.js";
+import {Server} from 'socket.io';
+
+import {__dirname, PORT} from './utils.js';
 import cookieParser from 'cookie-parser'; // el cookie es como un middleware
 
 //PASSPORT
@@ -14,6 +15,7 @@ import passport from 'passport';
 
 //Compressor
 import compression from 'express-compression';
+
 
 //ROUTERS
 import productsRouter from './routes/products.router.js';

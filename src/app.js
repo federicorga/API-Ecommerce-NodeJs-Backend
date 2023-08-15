@@ -50,6 +50,10 @@ import errorHandler from './middlewares/errors/errors.middleware.js'; //Middlewa
 import {addLogger } from './loggers/logger.js';
 import {logger} from './loggers/logger.js';
 
+//SWAGGER
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
+
 
 const app = express();
 
@@ -117,6 +121,22 @@ app.use(errorHandler);
 
 const httpServer= app.listen(PORT, () => logger.info(`Server running on port http://localhost:${PORT}`)); //Server http
 const socketServer= new Server(httpServer); //server Socket.io
+
+
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentación del proyecto E-commerce venta de entradas',
+            description: 'API pensada para la venta de entradas de recitales'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+};
+
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 
 //handshake ( saludo de manos, servidor ligado).

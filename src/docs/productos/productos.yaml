@@ -1,0 +1,190 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron obtenidos satisfactoriamente de la BDD
+
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    post:
+      summary: Se agrega nuevo producto a la BD
+      tags:
+        - Products
+      responses:
+        "200":
+          description: El producto fue cargado en la BDD de forma satisfactoria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
+        "500":
+          description: Error interno del servidor,por falta de cosas
+
+  /api/products/:pid:
+    get:
+      summary: Obtiene un solo Producto a partir de su pid
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto fue obtenido satisfcatoriamente de la BDD
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "404":
+          description: El producto no fue obtenido satisfactoriamene de la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    put:
+      summary: Actualiza el producto a partir de su pid
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBody/updateOneProduct"
+      responses:
+        "200":
+          description: El producto fue actualizado correctamente.
+        "404":
+          description: El producto no fue encontrado en la BDD.
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD.
+
+    delete:
+      summary: elimina un producto de la lista con su pid
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto fue eliminado con exito.
+        "404":
+          description: El producto no fue encontrado en la BDD.
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongodb.
+        title:
+          type: String
+          description: Nombre del producto.
+        description:
+          type: String
+          description: Descripcion del producto.
+        code:
+          type: String
+          description: Codigo del producto autogenerado unico.
+        price:
+          type: Number
+          description: Precio del producto.
+        status:
+          type: Boolean
+          description: estado el producto puede ser activo o no
+        stock:
+          type: Number
+          description: cantidad de producto
+        category:
+          type: Array
+          description: categoria del producto, puede tener mas de una.
+        owner:
+          type: String
+          description: se identifica a la persona que creo el producto, por defecto es admin.
+        thumbnails:
+          type: String
+          description: Imagenes del producto, pueden ser mas de una.
+      example:
+        _id: ObjectId("asdad324524")
+        title: Los redondos
+        description: Banda de rock Argentina
+        code: h82751a3edd
+        price: 200
+        status: true
+        stock: 21
+        category: Rock
+        owner: admin
+        thubnails: ../img/redondos.png
+
+  requestBody:
+    updateOneProduct:
+      type: object
+      properties:
+        properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado de mongodb.
+        title:
+          type: String
+          description: Nombre del producto.
+        description:
+          type: String
+          description: Descripcion del producto.
+        code:
+          type: String
+          description: Codigo del producto autogenerado unico.
+        price:
+          type: Number
+          description: Precio del producto.
+        status:
+          type: Boolean
+          description: estado el producto puede ser activo o no
+        stock:
+          type: Number
+          description: cantidad de producto
+        category:
+          type: Array
+          description: categoria del producto, puede tener mas de una.
+        owner:
+          type: String
+          description: se identifica a la persona que creo el producto, por defecto es admin.
+        thumbnails:
+          type: String
+          description: Imagenes del producto, pueden ser mas de una.
+      example:
+        _id: ObjectId("asdad324524")
+        title: La renga
+        description: Banda de rock
+        code: h82751a3edd
+        price: 1000
+        status: true
+        stock: 15
+        category: Pop
+        owner: admin
+        thubnails: ../img/larenga.png

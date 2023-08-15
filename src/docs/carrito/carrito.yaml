@@ -1,0 +1,260 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Se obtiene todos los carritos
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos de forma satisfactoria de la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    post:
+      summary: Se agrega un nuevo carrito
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: Se agrego un nuevo carrito a la BDD
+          content:
+            application/json:
+              schema:
+                $ref: "#components/CartOnly/schemas"
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+  /api/carts/:cid:
+    get:
+      summary: Obtengo un solo carrito a partir de su :cid
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+
+      responses:
+        "200":
+          description: El carritos fue obtenido de forma satisfactoria de la BDD
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+
+        "404":
+          description: no se encuentra el carrito en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    delete:
+      summary: Se limpia el carrito del :cid pasado
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Se limpio el carrito de forma exitosa, pero este no se eliminia
+        "404":
+          description: no se encuentra el carrito en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    put:
+      summary: Se modifica el carrito a partir de su :cid
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: La modificacions del carrito fue exitosa.
+        "404":
+          description: no se encuentra el carrito en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+  /api/carts/:cid/product/:pid:
+    post:
+      summary: Se agrega el producto :pid pasado al carrito :cid especificado
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: el id del Producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: El producto fue agregado al carrito de forma exitosa
+        "404":
+          description: no se encuentra el carrito o producto en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+    put:
+      summary: Se modifica la cantidad de producto :pid del carrito :cid especificado
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: el id del Producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Se modifica la cantidad de producto de forma exitosa
+        "404":
+          description: no se encuentra el carrito o producto en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+  /api/carts/:cid/products/:pid:
+    delete:
+      summary: Se elimina del carrito :cid especificado el producto :pid pasado
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: el id del Producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Se elimino del carrito :cid el producto :pid de forma exitosa
+        "404":
+          description: no se encuentra el carrito o producto en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+  /api/carts/:cid/purchase:
+    get:
+      summary: Se obtiene el resultado de la compra finalizada
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del Carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Se emite el tiquet de finalizacion de compra de forma exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/requesTicket/schemas"
+
+        "404":
+          description: no se encuentra el carrito en la BDD
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o fallo en la conexión a la BDD
+
+components:
+  CartOnly:
+    schemas:
+      type: object
+      propierties:
+        _id:
+          type: string
+          description: Id autogenerado de MongoDB
+        products:
+          type: array
+          description: contiene objetos de productos y sus cantidades
+      example:
+        _id: "987654321fedcba"
+        product: []
+
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado de MongoDB.
+        products:
+          type: array
+          description: Contiene objetos de productos y sus cantidades.
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+              quantity:
+                type: number
+      example:
+          _id: "987654321fedcba"
+          products:
+            - product: "xyz789"
+              quantity: 1
+            - product: "mno456"
+              quantity: 3
+            - product: "qrs234"
+              quantity: 2
+
+  requesTicket:
+    schemas:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado de MongoDB.
+        code:
+          type: string
+          unique: true
+          required: true
+        purchase_datetime:
+          type: string
+          format: date-time
+        amount:
+          type: number
+          required: true
+        purchaser:
+          type: string
+          description: ID del usuario que realizó la compra.
+      example:
+        _id: "abcdef123456"
+        code: "ABC123"
+        purchase_datetime: "2023-08-15T10:30:00Z"
+        amount: 150
+        purchaser: "615bf4e933e04b001f9c5887"

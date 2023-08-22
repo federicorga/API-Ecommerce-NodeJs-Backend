@@ -6,6 +6,12 @@ export default class UserManager {
         logger.info("working Users with DB")
     }
 
+    getAllUsers= async()=>{
+        const users = await userModel.find();
+        users.map(product => product.toObject());
+        return users
+    }
+
     getOneUser = async (email) => {
         const user = await userModel.findOne(email);
         return user;

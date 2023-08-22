@@ -38,8 +38,9 @@ const userSchema = new mongoose.Schema({ //se genera un ID de forma automatica a
     },
     password: { type: String },
     cart: {
-        type: mongoose.Schema.Types.ObjectId, ref: "carts",
-        default: []
+        type:mongoose.Schema.Types.ObjectId, 
+            ref: "carts",
+       
     },
     role: {
         type: String,
@@ -54,9 +55,9 @@ const userSchema = new mongoose.Schema({ //se genera un ID de forma automatica a
     ]
 });
 
-userSchema.pre('find', function(){ //como un middleware que trae el modelo tickets completo a usuario
+/*userSchema.pre('find', function(){ //como un middleware que trae el modelo tickets completo a usuario
     this.populate('tickets');
-});
+});*/
 
 const userModel = mongoose.model(userCollection, userSchema); //Esquema y modelo (parte funcional).
 //al exportar se crea el modelo para poder trabajar.

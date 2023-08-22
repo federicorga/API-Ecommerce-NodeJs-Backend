@@ -84,8 +84,8 @@ const loginUser = async (req, res) => {
         });
         
         const user = await userService.getOneUser({ email: email }); //busco en la BD
-        if (!user) return res.status(400).send({ status: 'error', error: 'Invalid credentials' });
-        if (!isValidPassword(user, password)) return res.status(400).send({ status: 'error', error: 'Invalid password' });//verifica si las contraseñas coinicden
+        if (!user) return res.status(401).send({ status: 'error', error: 'Invalid credentials' });
+        if (!isValidPassword(user, password)) return res.status(401).send({ status: 'error', error: 'Invalid password' });//verifica si las contraseñas coinicden
         const userFind = {
             first_name: user.first_name,
             last_name: user.last_name,

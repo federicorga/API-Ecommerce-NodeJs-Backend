@@ -2,6 +2,7 @@ import CartRepository from '../repositories/cart.repository.js';
 import ProductRepository from '../repositories/products.repository.js'
 import { createTicket } from './tickets.service.js';
 import {logger} from '../loggers/logger.js';
+import { cartModel } from '../dao/dbManagers/models/carts.model.js';
 const cartRepository= new CartRepository();
 const productRepository =new ProductRepository();
 
@@ -110,6 +111,12 @@ const closeCart = async (cartId,user) => {
       return { error: "There are not products in the cart." };
     }
   };
+
+  deleteOneCart = async (id) => {
+    const result = await cartModel.deleteOne({ _id: id });
+    return result
+
+};
   
 
 

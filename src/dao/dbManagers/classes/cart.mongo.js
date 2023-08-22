@@ -119,4 +119,10 @@ export default class CartsManager {
 
   };
 
+  deleteOneProduct = async (id) => {
+    const result = await cartModel.deleteOne({ _id: id });
+    return result
+
+};
+
 };

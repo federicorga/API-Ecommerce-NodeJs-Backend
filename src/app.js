@@ -107,13 +107,10 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartRouter);
 app.use('/views',viewsRouter);
 app.use('/api/cookies',userCookies);
-app.use('/api/sessions', sessionsRouter);
+app.use('/api/session', sessionsRouter);
 app.use('/moking-products',mokingRouter)// ruta moking de prueba muestra 100 productos
 app.use('/loggerTest',loggerTestRouter)
 //app.use('/api/users',userRouter); se usa sessions
-
-
-
 
 //ERRORES MIddleware Global
 app.use(errorHandler);
@@ -121,7 +118,6 @@ app.use(errorHandler);
 
 const httpServer= app.listen(PORT, () => logger.info(`Server running on port http://localhost:${PORT}`)); //Server http
 const socketServer= new Server(httpServer); //server Socket.io
-
 
 
 const swaggerOptions = {

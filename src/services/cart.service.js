@@ -112,7 +112,7 @@ const closeCart = async (cartId,user) => {
     }
   };
 
-  deleteOneCart = async (id) => {
+  const deleteOneCart = async (id) => {
     const result = await cartModel.deleteOne({ _id: id });
     return result
 

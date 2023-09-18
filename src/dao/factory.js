@@ -1,6 +1,5 @@
-//esta fabrica se va a encargar de devolver la conexion que solicitamos ya sea a mongos, file, o memory
-// se debe pasar la persistencia que se quiere usar
-import {logger} from '../loggers/logger.js';
+
+import { logger } from '../loggers/logger.js';
 import dotenvConfig from '../config/dotenv.config.js';
 
 
@@ -9,17 +8,17 @@ const persistence = dotenvConfig.persistence;
 const URL = dotenvConfig.mongoUrl
 
 
-const { default: ProductsManager } = await import('./dbManagers/classes/products.mongo.js'); //conexion a producto
-const { default: CartsManager } = await import('./dbManagers/classes/cart.mongo.js'); //conexion a carrito
-const { default: MessagesManager } = await import('./dbManagers/classes/messages.mongo.js'); //conexion a mensaje
-const { default: UserManager } = await import('./dbManagers/classes/user.mongo.js'); //conexion a usuario
-const {default: TicketsManager} = await import('./dbManagers/classes/tickets.mongo.js') //conexion a Ticket
+const { default: ProductsManager } = await import('./dbManagers/classes/products.mongo.js');
+const { default: CartsManager } = await import('./dbManagers/classes/cart.mongo.js'); 
+const { default: MessagesManager } = await import('./dbManagers/classes/messages.mongo.js'); 
+const { default: UserManager } = await import('./dbManagers/classes/user.mongo.js'); 
+const { default: TicketsManager } = await import('./dbManagers/classes/tickets.mongo.js');s
 
 let ProductsDAO = ProductsManager;
 let CartDAO = CartsManager;
 let MessagesDAO = MessagesManager;
 let UserDAO = UserManager;
-let TicketsDAO=TicketsManager
+let TicketsDAO = TicketsManager
 
 
 
@@ -28,13 +27,13 @@ switch (persistence) {
     case 'MONGO': //Persistencia en base de datos MONGO
         try {
             logger.info('working from BDD MONGO');
-            const mongoose = await import('mongoose'); //importamos mongoose dentro del case
-            await mongoose.connect(URL); //conexion a la base de datos de MONGO
-            const { default: ProductsManager } = await import('./dbManagers/classes/products.mongo.js'); //conexion a producto
-            const { default: CartsManager } = await import('./dbManagers/classes/cart.mongo.js'); //conexion a carrito
-            const { default: MessagesManager } = await import('./dbManagers/classes/messages.mongo.js'); //conexion a mensaje
-            const { default: UserManager } = await import('./dbManagers/classes/user.mongo.js'); //conexion a usuario
-            const {default: TicketsManager} = await import('./dbManagers/classes/tickets.mongo.js') //conexion a Ticket
+            const mongoose = await import('mongoose');
+            await mongoose.connect(URL);
+            const { default: ProductsManager } = await import('./dbManagers/classes/products.mongo.js');
+            const { default: CartsManager } = await import('./dbManagers/classes/cart.mongo.js');
+            const { default: MessagesManager } = await import('./dbManagers/classes/messages.mongo.js');
+            const { default: UserManager } = await import('./dbManagers/classes/user.mongo.js');
+            const { default: TicketsManager } = await import('./dbManagers/classes/tickets.mongo.js')
 
 
             ProductsDAO = ProductsManager;
@@ -43,24 +42,22 @@ switch (persistence) {
             UserDAO = UserManager;
             TicketsDAO = TicketsManager;
 
-             logger.info('***Conectado a BDD***');
+            logger.info('***Conectado a BDD***');
         } catch (error) {
-             logger.error(error);
+            logger.error(error);
         }
-        /*
-        const DB_USER = "fedeex22"; //usario Mongo
-       const DB_PASS = "Mongo1234568"; //contraseña Mongo*/
+
         break;
 
-    case 'FILE': //Persistencia en archivos json
-    try {
-         logger.info('working from files persistence');
+    case 'FILE':
+        try {
+            logger.info('working from files persistence');
 
-         logger.info('***Conectado a FILES***');
-    } catch (error) {
-         logger.error(error);
-    }
-       
+            logger.info('***Conectado a FILES***');
+        } catch (error) {
+            logger.error(error);
+        }
+
 
 }
 

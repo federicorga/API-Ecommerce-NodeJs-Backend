@@ -1,8 +1,7 @@
-//se define el middleware que va a cachera (almacenar) los errores, remplazaria al try y cath
-//Este middleware es global va en app.js antes de levantar el servidor
+
 import EErrors from './enums.js'
 
-export default (error, req, res, next) => { //middleware de errores no controlados}
+export default (error, req, res, next) => { 
     
         switch (error.code) {
             case EErrors.ROUTING_ERROR:

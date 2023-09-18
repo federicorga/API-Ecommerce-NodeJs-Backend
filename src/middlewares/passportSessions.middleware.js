@@ -4,8 +4,7 @@ const githubMiddlewareLogin = passport.authenticate('github', { failureRedirect:
 const githubMiddlewareRegister = passport.authenticate('github', { scope: ['user:email'] });
 const jwtMiddlewareAuthenticate = passport.authenticate('jwt', { session: false });
 
-const authorizationRole = (roles) => { //se debe especificar el role (admin,user) para el acceso
-    //verifica el role de la cuenta
+const authorizationRole = (roles) => { 
     return async (req, res, next) => {
       const user  = req.user;
 

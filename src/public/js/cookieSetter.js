@@ -19,6 +19,6 @@ form.addEventListener('submit', (e)=>{
 });
 
 const getCookie=()=>{
-    console.log(document.cookie); //el frontend asi obtiene las cookie mediante esta propiedad almacenada en nuestro navegador
-    //esta son las cookies normales sin clave.
+    console.log(document.cookie); 
+
 }

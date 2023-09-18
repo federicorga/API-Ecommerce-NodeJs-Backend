@@ -4,6 +4,11 @@ import UsersRepository from '../repositories/user.repository.js';
 
 const usersRepository = new UsersRepository();
 
+const getAllUsers = async()=>{
+   const users = await usersRepository.getAllUsers()
+   return users
+}
+
  const getOneUser = async(email) =>{ 
     const user= await usersRepository.getOneUser(email)
      return user;
@@ -18,8 +23,21 @@ const usersRepository = new UsersRepository();
     return result
  }
 
+ const deleteInactiveUser= async(uid)=> {
+   return await usersRepository.deleteInactiveUser(uid)
+ }
+
+ const setLastConnection = async(uid)=> {
+   return await usersRepository.setLastConnection(uid)
+ }
+
+
+
  export{
-   getOneUser, //obtenemos un usuario
-   addNewUser, //agregamos un nuevo usuario
-   updatePasswordUser //actualizamos el password del usuario
+   getAllUsers, 
+   getOneUser, 
+   addNewUser, 
+   updatePasswordUser, 
+   deleteInactiveUser, 
+   setLastConnection 
  }

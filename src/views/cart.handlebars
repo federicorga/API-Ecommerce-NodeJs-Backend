@@ -1,16 +1,29 @@
 <section class="cart_container">
   <h1>Cart</h1>
   <a href="/views/products"><button>Ir a productos</button></a>
-  <a href="/views/cart/{{cid}}"><button data-custom="{{cid}}"class="cleanCart">Limpiar Carrito</button></a>
+
+ <a href="/views/cart/{{cid}}"><button id="botonLimpiarCarrito" data-custom="{{cid}}" class="cleanCart">Limpiar carrito</button></a>
+
+ 
+
+  <a href="/views/products"><button id="botonFinalizarCompra" data-custom="{{cid}}" class="finishCart">Finalizar compra</button></a>
 
   <h3>Products in cart</h3>
   {{#each products}}
   <div>
+   {{#if this.product.stock}}
     <p>{{this.product.title}}</p>
-    <span>${{this.product.price}} x {{this.quantity}} Unidades</span>
+    <span >${{this.product.price}} x {{this.quantity}} Unidades</span>
+    {{else}}
+     <p class="red-text">{{this.product.title}}</p>
+     <p class="red-text">Sin Stock</p>
+     
+    {{/if}}
+  
   </div>
   {{/each}}
 
 </section>
 
 <script src="/js/helperCart.js"></script>
+

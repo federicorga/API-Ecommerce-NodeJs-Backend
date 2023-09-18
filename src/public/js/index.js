@@ -1,13 +1,12 @@
-// implementacion de js del lado del front-end es decir del lado del cliente usando SOcket.io
 
-const socket = io(); //import de la dependencia <script src="/socket.io/socket.io.js"></script> en index.handlebars
 
-console.log("HOLA MUNDO"); //escribe en la consola de mi navegador,
+const socket = io(); 
+console.log("HOLA MUNDO"); 
 
-//enviar mensaje al servidor desde el cliente
+
 socket.emit('message', "hola, es un mensaje desde el Frontend cliente");
 
-//escuchar mensaje individual del servidor
+
 
 
 socket.on('real_time_products', data => {
@@ -86,7 +85,7 @@ function renderTable (prod,container){
   function fillFormWithProductData(product) {
     const form = document.getElementById("formRealTime");
   
-    // Llena los campos del formulario con los datos del producto
+   
     form.title.value = product.title;
     form.description.value = product.description;
     form.code.value = product.code;
@@ -94,7 +93,7 @@ function renderTable (prod,container){
     form.stock.value = product.stock;
     form.category.value = product.category;
   
-    // Cambia el texto del botón de enviar a "Actualizar"
+    
     const submitButton = form.querySelector(".btnEnviar");
     submitButton.innerText = "Actualizar";
 
@@ -106,13 +105,13 @@ function renderTable (prod,container){
 
 
 
-  async function sendDataApiProductAdd(formData) { //envia dato al api/products metodo: Post
+  async function sendDataApiProductAdd(formData) { 
     const url = '/api/products';
-    const formObj = Object.fromEntries(formData.entries());  //Transforma la clave valor del forumlario en un objeto Javascript ya que lo que sale del formulario es un objeto del tipo FormData
+    const formObj = Object.fromEntries(formData.entries()); 
     const opciones = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' }, // es un tipo MIME estándar utilizado para indicar que el contenido del mensaje o solicitud HTTP está en formato JSON.
-      body: JSON.stringify(formObj) //Transforma objeto a formato JSON
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formObj)
     };
     
     try {
@@ -125,7 +124,7 @@ function renderTable (prod,container){
     }
 }
 
-async function senDataApiProductDelete(id){ //envia dato al api/products metodo: Delete
+async function senDataApiProductDelete(id){ 
     const url = `/api/products/${id}`;
     const opciones ={
         method: 'DELETE',

@@ -6,27 +6,20 @@ const productCollection = 'products'
 
 
 
-/*title:product.title,
-description:product.description,
-code:product.code,
-price: `$${product.price}`,
-status:product.status??true,
-stock:product.stock,
-category:product.category,
-thumbnails:product.thumbnails??[]*/
 
 
-const productSchema = new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro. Shcema es esquema
+
+const productSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        index: true //asi se agrega un indice, se puede verificar en MongosDB index
+        index: true
     },
     description: { type: String },
     code: {
         type: String,
-        unique: true, // no pueden haber 2 codigos iguales.
-        required: true, // que el campo sea si o si requerido
+        unique: true,
+        required: true,
     },
     price: Number,
     status: {
@@ -43,13 +36,13 @@ const productSchema = new mongoose.Schema({ //se genera un ID de forma automatic
         default: []
     },
     owner: {
-        type:String,
+        type: String,
         required: true,
         unique: true,
-        default:'admin'
+        default: 'admin'
     }
 });
 
-productSchema.plugin(mongoosePaginate); //le inyectamos la funcion de paginacion
+productSchema.plugin(mongoosePaginate);
 
 export const productModel = mongoose.model(productCollection, productSchema);

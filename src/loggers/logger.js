@@ -1,4 +1,3 @@
-//debug, http, info, warning, error, fatal
 
 import winston from "winston";
 import config from '../config/dotenv.config.js'
@@ -33,7 +32,7 @@ if (ENVRIOMENT === 'development') {
         level: customLevelOptions.levels,
         transports: [
             new winston.transports.Console({
-                level: 'debug', //trabajo desde el nive que especifique el resto sera ignorado
+                level: 'debug',
                 format: winston.format.combine(
                     winston.format.colorize({
                         all: true,
@@ -67,7 +66,7 @@ if (ENVRIOMENT === 'development') {
             }),
             new winston.transports.File({
                 filename: 'src/loggers/logs/prod.log',
-                
+
                 level: 'warn'
             })
         ]
@@ -76,9 +75,9 @@ if (ENVRIOMENT === 'development') {
 }
 
 
-const addLogger = (req, res, next) => { //middleware de loger y se setea en app.js de manera global
+const addLogger = (req, res, next) => {
     req.logger = logger;
-    //req.logger.http(`${req.method} es ${req.url} - ${new Date().toISOString()}`) //se define el nivel http de manera general
+
     next();
 }
 

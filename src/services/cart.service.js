@@ -66,8 +66,8 @@ const updateCart=async(cartId,productId)=>{
 }
 
 const deleteProductInCart = async (cartId, productId) => {
-    const cart = await cartRepository.getCartById(cartId); //existe el carrito
-    const existingProduct = cart.products.find((item) => item.product.toString() === productId); //existe el producto en el carrito
+    const cart = await cartRepository.getCartById(cartId); 
+    const existingProduct = cart.products.find((item) => item.product.toString() === productId); 
     logger.warning(existingProduct);
     if (!cart) return { error: "Cart not found" };
     if (!existingProduct) return { error: "product in cart not found" }
@@ -76,23 +76,27 @@ const deleteProductInCart = async (cartId, productId) => {
 
 }
 
-const closeCart = async (cartId,user) => {
-    const { cid } = cartId;
-   
+const closeCart = async (cartId,userId) => {
+    const cid = cartId;
+    const user=userId;
+
     let cart = await cartRepository.getCartById(cid);
-  
+ 
     if (cart.products.length > 0) {
       let amount = 0;
       let productWithoutStock = [];
-      let purchaser = user.email; //usuario email
-  
+      let purchaser = user?.email || "m.a@gmail.com";
+
       cart.products.forEach(async ({ product, quantity }) => {
-        if (product.stock >= quantity) {
+    
+        if (product?.stock >= quantity) {
+     
           amount += product.price * quantity;
+          
           product.stock -= quantity;
-          await productRepository.updateOneProduct(product._id, product); //actualizo el producto
+          await productRepository.updateOneProduct(product._id, product); 
         } else {
-          productWithoutStock.push({ product, quantity }); //devuelvo los productos que sean mayor que el stock disponible
+          productWithoutStock.push({ product, quantity }); 
         }
       });
   
@@ -101,7 +105,7 @@ const closeCart = async (cartId,user) => {
         if (result?.error) {
           return result;
         } else {
-          let payload = await cartRepository.updateCart(cid, productWithoutStock); //retorna el producto que no tiene stock
+          let payload = await cartRepository.updateCart(cid, productWithoutStock); 
           return payload;
         }
       } else {
@@ -112,11 +116,14 @@ const closeCart = async (cartId,user) => {
     }
   };
 
-  const deleteOneCart = async (id) => {
+
+
+ const deleteOneCart = async (id) => {
     const result = await cartModel.deleteOne({ _id: id });
     return result
+  };
 
-};
+
   
 
 
@@ -130,6 +137,8 @@ export {
     cartClean,
     updateCart,
     deleteProductInCart,
-    closeCart
+    closeCart,
+    deleteOneCart
+    
  
 }

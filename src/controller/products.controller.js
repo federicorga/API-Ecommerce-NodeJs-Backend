@@ -1,17 +1,14 @@
 
-//(3) Importamos de Servicios las constantes y le modificamos el nombre para poder usarlas a Service
-
-
 import * as productsService from '../services/products.service.js'
 
 
-const getAllProductsOrganized= async (req, res) => {
+const getAllProductsOrganized = async (req, res) => {
     try {
         const { limit, sort, page, query } = req.query;
         const respound = await productsService.getAllProductsOrganized(limit, page, query, sort);
         return res.send(respound);
     } catch (error) {
-         req.logger.error(error.message);
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -25,7 +22,7 @@ const getProductById = async (req, res) => {
         const product = await productsService.getProductById(productId);
         product ? res.send(product) : res.send("Producto no encontrado");
     } catch (error) {
-         req.logger.error(error.message);
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -33,13 +30,13 @@ const getProductById = async (req, res) => {
 
 
 //CREATED desde Body / Raw
-const addOneProduct= async (req, res) => {
+const addOneProduct = async (req, res) => {
     try {
         const producte = req.body;
         const result = await productsService.addOneProduct(producte);
         return res.send({ status: 'success', result: `${result}` });
     } catch (error) {
-         req.logger.error(error.message);
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -48,13 +45,13 @@ const addOneProduct= async (req, res) => {
 };
 
 
-const deleteOneProduct= async (req, res) => {
+const deleteOneProduct = async (req, res) => {
     try {
         const productId = req.params.pid;
         const product = await productsService.getProductById(productId);
         product ? res.send(await productsService.deleteOneProduct(productId)) : res.send("Producto no encontrado");
     } catch (error) {
-         req.logger.error(error.message);
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -69,7 +66,7 @@ const updateOneProduct = async (req, res) => {
         const result = await productsService.updateOneProduct(productId, newProduct);
         res.send({ status: 'success', result: `${result}` });
     } catch (error) {
-         req.logger.error(error.message);
+        req.logger.error(error.message);
         res.status(500).send({ status: 'error', message: error.message });
     }
 
@@ -77,14 +74,12 @@ const updateOneProduct = async (req, res) => {
 };
 
 
-
-
 export {
     getAllProductsOrganized,
     getProductById,
-    addOneProduct, 
+    addOneProduct,
     deleteOneProduct,
-    updateOneProduct 
+    updateOneProduct
 
 }
 

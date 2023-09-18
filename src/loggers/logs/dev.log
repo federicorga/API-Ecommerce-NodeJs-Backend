@@ -6,3 +6,50 @@
 {"level":"error","message":"E11000 duplicate key error collection: test.products index: code_1 dup key: { code: \"12\" }"}
 {"level":"error","message":"error code se repite"}
 {"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"uuidv4 is not defined"}
+{"level":"error","message":"uuidv4 is not defined"}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"coder@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"coder@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"m.a@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"m.a@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"m.a@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"tickets validation failed: purchaser: Cast to ObjectId failed for value \"coder@gmail.com\" (type string) at path \"purchaser\" because of \"BSONError\""}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"E11000 duplicate key error collection: test.tickets index: purchaser_1 dup key: { purchaser: \"coder@gmail.com\" }"}
+{"level":"error","message":"the cart not exist."}
+{"level":"error","message":"the cart not exist."}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"Cannot destructure property 'user' of 'req.user' as it is undefined."}
+{"level":"error","message":"Cannot destructure property 'user' of 'req.user' as it is undefined."}
+{"level":"error","message":"Cannot destructure property 'user' of 'req.user' as it is undefined."}
+{"level":"error","message":"Cannot read properties of undefined (reading '_id')"}
+{"level":"error","message":"Cannot read properties of undefined (reading '_id')"}

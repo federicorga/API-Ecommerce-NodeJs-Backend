@@ -62,7 +62,7 @@ const getAllProductForAscDesc = async (ascDes) => {
 //---------------------------Auxilares Funciones
 
 const esCodeRepetido = async (code) => {
-    // Verifica si el codigo de algunos de los productos de(productos.json) tiene el mismo codigo pasado.
+    
     const products = await productsRepository.getAllProducts();
 
     const codeExiste = products.find(products => products.code === code);
@@ -79,16 +79,16 @@ const esCodeRepetido = async (code) => {
 };
 
 const checkEmptyObject = (object) => {
-    //verifica si el valor de algun elemento del objeto es vacio(indefinido,etc).
+    
     for (const key in object) {
         if (object[key] === "" ||
             object[key] === undefined ||
             object[key] === null ||
             object[key] === false)
-            return true; //el objeto posee elementos vacios o falsos.
+            return true; 
     }
 
-    return false; //el objeto no posee elemento vacios o falsos.
+    return false; 
 }
 
 

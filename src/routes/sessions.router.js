@@ -31,7 +31,7 @@ router.post('/login', loginUser); //inicio de sesion normal usuario
 router.get('/current', jwtMiddlewareAuthenticate, authorizationRole(['admin', 'user']), jwtAuthenticateUser) //Autenticacion con JWT
 router.get('/fail-login', failLogin) // redireccion en caso de fallo de inicio sesion usuario
 router.post('/reset', resetPasswordUser) //restablecer contraseña
-router.get('/logout', logoutUser); // desloguear usuario
+router.get('/logout', jwtMiddlewareAuthenticate, logoutUser); // desloguear usuario
 
 //Rutas Github-------s
 router.get('/github', githubMiddlewareRegister, gitHubRegister); // me registor con Github

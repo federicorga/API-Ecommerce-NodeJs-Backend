@@ -1,68 +1,53 @@
-import { fileURLToPath } from 'url'; //Modulo de NodeJs
-import { dirname } from 'path'; //Path absoluto Modulo de NodeJS
-import bcrypt from 'bcrypt'//dependencia para hashear la contraseña (encriptarla)
-import jwt from 'jsonwebtoken'; // dependencia de JWT para json web token
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
 import config from './config/dotenv.config.js';
-import { faker } from '@faker-js/faker/locale/es'; //importamos Faker para trabajar con Mock y en español (es)
+
 import nodemailer from 'nodemailer'
-
-
 
 const PORT = config.port;
 
-const __filename = fileURLToPath(import.meta.url); //cuando trabajamos con Path la convencion es con __ doble ej: __filename
-const __dirname = dirname(__filename); //Path absoluto
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
-export { __dirname, PORT};
+export { __dirname, PORT };
 
-//metodos de encriptado/Hasheo
+export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-//hasheo vs Cifrado (hasheo significa que no podemos revertir o hacer el proceso inverso, con el cifrado podemos hacer el proceso inverso con la palabra secreta)
+export const isValidPassword = (user, password) => bcrypt.compareSync(password, user.password);
 
-export const createHash= password=> bcrypt.hashSync(password,bcrypt.genSaltSync(10)); //hasheamos nuestro password que recibimos como parametro y segundo parametro
-
-//es el algoritmo (es decir la cadena de texto) mientra mas rondas tenga mas segura la contraseña:bcrypt.genSaltSync(10) son 10 palabras
-export const isValidPassword=(user, password)=>bcrypt.compareSync(password, user.password);
-//el primer password es el que llega del login y el segundo user.password es el que ya esta hasheado y se comparan.
-//con esto validamos la contraseña
-
-export const PRIVATE_KEY = config.privateKey; //clave privada de JWT
-
-export const PRIVATE_KEY_GITHUB=config.privateKeyGithub;
+export const PRIVATE_KEY = config.privateKey;
+export const PRIVATE_KEY_GITHUB = config.privateKeyGithub;
 
 export const generateToken = (user) => {
-    const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' }); //.sign genera el jwt y dentro de el se enveve el user, el segundo es la clave privada de cifrado de los datos
-    // y expiresIn es el tiempo de expiracion 
-    return token; //se retorna el token generado
+    const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' });
+
+    return token;
 };
 
-export const authToken = (req, res, next) => { //Midellware de autenticacion de token
-    const authToken = req.headers.authorization; //nos llega el token de acceso desde el front con la palabra bearer
-    
-    if(!authToken) return res.status(401).send({error: 'Not authenticated'});// si no llega o el front no lo enia
+export const authToken = (req, res, next) => {
+    const authToken = req.headers.authorization;
 
-    const token = authToken.split(' ')[1]; //extrae el token y le quita la palabra bearer
-    // el 1 es porque bearer va a estar en la posicion 0 y el codigo token en la posicion 1
+    if (!authToken) return res.status(401).send({ error: 'Not authenticated' });
 
-    jwt.verify(token, PRIVATE_KEY, (error, credentials) => { // verifica el token (credentials es el token)
-        if (error) return res.status(403).send({error: 'Not authorized'}); //en caso de haber un error con la credencial/token
-        req.user = credentials.user; //en caso de ser valido se envia envevido la credencial con la extension usuario (todo simila a passport)
+    const token = authToken.split(' ')[1];
+
+    jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
+        if (error) return res.status(403).send({ error: 'Not authorized' });
+        req.user = credentials.user;
         next();
     });
 };
 
 
-//-----FAKE
-
-//nodeMailer
-
 export const transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
-    auth:{
-        user:config.userNodemailer,
-        pass:config.passNodemailer
+    auth: {
+        user: config.userNodemailer,
+        pass: config.passNodemailer
     }
 })
 

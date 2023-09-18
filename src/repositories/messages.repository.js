@@ -2,7 +2,7 @@ import { MessagesDAO } from "../dao/factory.js";
 
 
 export default class MessagesRepository{
-    constructor(){ //recibe el dao de memoria o mongodb
+    constructor(){ 
         this.dao=new MessagesDAO();
     }
 

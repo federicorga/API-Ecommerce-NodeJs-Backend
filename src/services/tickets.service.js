@@ -1,9 +1,9 @@
 
 import TicketsRepository from "../repositories/tickets.repository.js";
-import CartRepository from "../repositories/cart.repository.js";
+
 
 const ticketsRepository=new TicketsRepository();
-const cartRepository= new CartRepository();
+
 
 
 const getTickets= async ()=>{

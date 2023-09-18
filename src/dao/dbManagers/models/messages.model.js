@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const messageCollection = 'messages';
 
-const messageSchema = new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro.
+const messageSchema = new mongoose.Schema({
 
         user: { type: String, require: true },
         fechaActual: { type: String, require: true },

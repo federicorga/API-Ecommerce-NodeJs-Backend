@@ -1,11 +1,16 @@
-//todas las transformaciones de DTOs debemos manejarlas en esta capa
 
 import { UserDAO } from "../dao/factory.js";
 
 
 export default class UserRepository{
-    constructor(){ //recibe el dao de memoria o mongodb
+    constructor(){ 
         this.dao=new UserDAO();
+    }
+
+    getAllUsers= async()=>{
+        const users = await this.dao.getAllUsers()
+      
+        return users
     }
 
     getOneUser = async(email) =>{
@@ -24,6 +29,14 @@ export default class UserRepository{
         const result = await this.dao.updatePasswordUser(email,user);
         return result
      }
+
+     deleteInactiveUser= async(uid)=> {
+        return await this.dao.deleteUser(uid)
+      }
+
+      setLastConnection = async(uid)=> {
+        return await this.dao.setLastConnection(uid)
+      }
 
      
   

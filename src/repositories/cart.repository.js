@@ -2,7 +2,7 @@ import { CartDAO } from "../dao/factory.js";
 import {logger} from "../loggers/logger.js";
 
 export default class CartRepository {
-    constructor() { //recibe el dao de memoria o mongodb
+    constructor() { 
         this.dao = new CartDAO();
     }
 
@@ -19,11 +19,12 @@ export default class CartRepository {
 
     getCartByIdWithProduct = async (cartId) => {
         const cart = await this.dao.getCartByIdWithProduct(cartId);
+       
         return cart;
     };
 
     addNewCart = async () => {
-        const cartStruct = { //pasar luego a DTO
+        const cartStruct = { 
             products: [],
           };
         const newCart = await this.dao.addNewCart(cartStruct);

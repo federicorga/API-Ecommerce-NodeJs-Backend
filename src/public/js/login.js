@@ -15,8 +15,7 @@ form.addEventListener('submit', e => {
     }).then(result => {
         
         if (result.status === 200) {
-            console.log(document.cookie);// httpOnly sirve para no poder usar esto solo peticion http
-            window.location.replace('/views/profile');
+            console.log(document.cookie);
         }
     })
 });

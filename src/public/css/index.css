@@ -4,6 +4,9 @@ h1{
     text-align: center;
 }
 
+.red-text {
+  color: red;
+}
 
 thead,
 tfoot {

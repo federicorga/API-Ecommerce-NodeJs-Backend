@@ -1,4 +1,4 @@
-//Acceso Públicos y privados
+
 const publicAccess = (req, res, next) => {
     try {
         if (req.user) return res.redirect('/views/profile');

@@ -3,8 +3,8 @@
 class TicketDTO {
     async ticket(ticket) {
       let ticketParams = {
-        amount: ticket.amount, //cantidad total
-        purchaser: ticket.purchaser, //usuario
+        amount: ticket.amount, 
+        purchaser: ticket.purchaser,
       
       };
       return ticketParams;

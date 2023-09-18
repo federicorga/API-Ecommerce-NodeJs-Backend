@@ -1,4 +1,4 @@
-// Se trabaja el Mensaje de Error aqui va a estar la informacion de los errores
+
 
 const userErrorInfo =(user)=>{ //esto se envia al usuario frontend
     return `One or more propieties were incomplete or not valid

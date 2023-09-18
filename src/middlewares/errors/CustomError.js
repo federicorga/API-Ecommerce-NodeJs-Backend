@@ -7,18 +7,3 @@ export default class CustomError {
     }
 }
 
-/* EJEMPLO
-    if (!first_name || !last_name || !email){
-        throw CustomError.createError({
-            name: 'UserError',
-            cause: generateUserErrorInfo({
-                first_name,
-                last_name,
-                email
-            }),
-            message: 'Error trying to create user',
-            code: EErrors.INVALID_TYPE_ERROR
-        })
-    }*/
-
-    

@@ -1,0 +1,36 @@
+<section class="cart_container">
+  <h2 id="cart" data-id="{{_id}}" class="my-2 text-center">Users</h2>
+    <article class="container border rounded p-2">
+      <table class="table table-striped">
+         <thead class="rounded">
+          <tr>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Last Connection</th>
+         
+          </tr>
+        </thead>
+        <tbody class="rounded" id="users">
+          {{#each users}} 
+          <tr>
+            <td><strong>{{this.first_name}}</strong></td>
+            <td><strong>{{this.last_name}}</strong></td>
+            <td><strong>{{this.email}}</strong></td>
+            <td><strong>{{this.role}}</strong></td>
+            <td><strong>{{this.last_connection}}</strong></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end">
+        <a href="/views/profile"><button>Ir a perfil</button></a>
+        <button class="btn btn-outline-danger" id="delete-innactive">Delete Innactive Users</button>
+      </div>
+    </article>
+   
+
+</section>
+
+<script src="/js/users.js"></script>

@@ -1,7 +1,7 @@
 import { ProductsDAO } from "../dao/factory.js";
 
 export default class ProductsRepository {
-    constructor() { //recibe el dao de memoria o mongodb
+    constructor() { 
         this.dao = new ProductsDAO();
     }
 
@@ -16,10 +16,10 @@ export default class ProductsRepository {
             limit: limit || 10,
             page,
         };
-        if (sort) options.sort = { price: sort }; //ascendente o descendente 1=desdendente -1(ascendente)
-        //http://localhost:8080/views?sort=1
-        const queryObj = query ? { category: { $regex: query, $options: 'i' } } : {}; // envio el objeto o vacio de query para filtrar
-        // http://localhost:8080/views?query=rock
+        if (sort) options.sort = { price: sort }; 
+       
+        const queryObj = query ? { category: { $regex: query, $options: 'i' } } : {}; 
+      
         const products = await this.dao.getAllProductsOrganized(queryObj, options);
         return products;
     }

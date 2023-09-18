@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/', (req, res) => {
     let users = [];
-    for(let i=0; i< 100; i++) {
+    for (let i = 0; i < 100; i++) {
         users.push(generateUser());
     }
 

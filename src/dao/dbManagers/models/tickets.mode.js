@@ -3,14 +3,15 @@ import mongoose from "mongoose";
 const ticketCollection = 'tickets';
 
 
-const ticketSchema = new mongoose.Schema({ //se genera un ID de forma automatica al crearse este registro. Shcema es esquema
+const ticketSchema = new mongoose.Schema({
 
 
-    code: {type: String,unique: true,required: true,},
-    purchase_datetime: { type: Date, default: Date.now }, //fecha y hora
-    amount: { type: Number, require: true }, //total de la compra
-    purchaser: {type: mongoose.Schema.Types.ObjectId,ref:'users',required: true,unique: true
-    }//correo de usuario
+    code: { type: String, required: true, },
+    purchase_datetime: { type: Date, default: Date.now },
+    amount: { type: Number, require: true },
+    purchaser: {
+        type: mongoose.Schema.Types.String, ref: 'users', required: true, unique: false
+    }
 
 });
 

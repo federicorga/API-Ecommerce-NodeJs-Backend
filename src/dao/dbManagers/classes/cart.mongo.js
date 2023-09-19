@@ -1,8 +1,6 @@
 import { cartModel } from "../models/carts.model.js";
 import { logger } from "../../../loggers/logger.js";
 
-
-
 export default class CartsManager {
   constructor() {
     logger.info("Working carts with DB");

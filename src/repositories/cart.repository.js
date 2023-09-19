@@ -3,7 +3,7 @@ import {logger} from "../loggers/logger.js";
 
 export default class CartRepository {
     constructor() { 
-        this.dao = new CartDAO();
+        this.dao = CartDAO;
     }
 
     getAllCarts = async () => {

@@ -68,7 +68,7 @@ const sessionsVisits = (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-
+try {
     const { email, password } = req.body;
 
     if (!email || !password) throw CustomError.createError({
@@ -99,7 +99,14 @@ const loginUser = async (req, res) => {
 
     res.cookie('eCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: false }
 
-    ).send({ status: 'success' })
+    ).send({ status: 'success', message:'Welcome, you will be automatically redirected shortly.' })
+    
+} catch (error) {
+    req.logger.error(error.message);
+    res.status(500).send({ status: 'error', error: error.message });
+    
+}
+    
 
 
 };

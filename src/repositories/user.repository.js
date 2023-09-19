@@ -4,7 +4,7 @@ import { UserDAO } from "../dao/factory.js";
 
 export default class UserRepository{
     constructor(){ 
-        this.dao=new UserDAO();
+        this.dao=UserDAO;
     }
 
     getAllUsers= async()=>{

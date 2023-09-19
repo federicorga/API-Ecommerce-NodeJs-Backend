@@ -3,7 +3,7 @@ import { MessagesDAO } from "../dao/factory.js";
 
 export default class MessagesRepository{
     constructor(){ 
-        this.dao=new MessagesDAO();
+        this.dao= MessagesDAO;
     }
 
     getMessages=async()=>{

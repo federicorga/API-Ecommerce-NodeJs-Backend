@@ -3,7 +3,7 @@ import { TICKET_DTO } from "../DTOs/DTOManager.js";
 
 export default class TicketsRepository{
     constructor(){
-        this.dao= new TicketsDAO();
+        this.dao= TicketsDAO;
     }
     getTickets= async ()=>{
         const result = await this.dao.getTickets()

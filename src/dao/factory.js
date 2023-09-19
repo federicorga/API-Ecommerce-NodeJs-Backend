@@ -8,17 +8,11 @@ const persistence = dotenvConfig.persistence;
 const URL = dotenvConfig.mongoUrl
 
 
-const { default: ProductsManager } = await import('./dbManagers/classes/products.mongo.js');
-const { default: CartsManager } = await import('./dbManagers/classes/cart.mongo.js'); 
-const { default: MessagesManager } = await import('./dbManagers/classes/messages.mongo.js'); 
-const { default: UserManager } = await import('./dbManagers/classes/user.mongo.js'); 
-const { default: TicketsManager } = await import('./dbManagers/classes/tickets.mongo.js');s
-
-let ProductsDAO = ProductsManager;
-let CartDAO = CartsManager;
-let MessagesDAO = MessagesManager;
-let UserDAO = UserManager;
-let TicketsDAO = TicketsManager
+let ProductsDAO
+let CartDAO
+let MessagesDAO 
+let UserDAO 
+let TicketsDAO 
 
 
 
@@ -36,13 +30,15 @@ switch (persistence) {
             const { default: TicketsManager } = await import('./dbManagers/classes/tickets.mongo.js')
 
 
-            ProductsDAO = ProductsManager;
-            CartDAO = CartsManager;
-            MessagesDAO = MessagesManager;
-            UserDAO = UserManager;
-            TicketsDAO = TicketsManager;
+            ProductsDAO = new ProductsManager();
+            CartDAO = new CartsManager();
+            MessagesDAO = new MessagesManager();
+            UserDAO = new UserManager();
+            TicketsDAO = new TicketsManager();
 
             logger.info('***Conectado a BDD***');
+
+        
         } catch (error) {
             logger.error(error);
         }
@@ -54,10 +50,11 @@ switch (persistence) {
             logger.info('working from files persistence');
 
             logger.info('***Conectado a FILES***');
+       
         } catch (error) {
             logger.error(error);
         }
-
+        break;
 
 }
 

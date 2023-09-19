@@ -16,6 +16,12 @@ form.addEventListener('submit', e => {
         
         if (result.status === 200) {
             console.log(document.cookie);
+    
+                alert('Welcome, you will be automatically redirected shortly.');
+                setTimeout(() => window.location.href = "profile", 500);
+              } else {
+                alert(result.status);
+              
         }
     })
 });

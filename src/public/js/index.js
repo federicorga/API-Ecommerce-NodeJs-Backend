@@ -1,10 +1,13 @@
 
 
 const socket = io(); 
+
+/*
 console.log("HOLA MUNDO"); 
 
 
 socket.emit('message', "hola, es un mensaje desde el Frontend cliente");
+*/
 
 
 
@@ -25,7 +28,7 @@ socket.on('real_time_products', data => {
 
 const formRealTime=document.getElementById("formRealTime");
 
-formRealTime.addEventListener('submit',async (e)=>{
+formRealTime.addEventListener('submit',async (e)=>{ //tocar el boton enviar en el formulario de agregar nuevo producto
     e.preventDefault();
 
     const formData = new FormData(formRealTime);
@@ -40,7 +43,7 @@ const btnLimpiar=document.getElementById("btnLimpiar");
 btnLimpiar.addEventListener('click',()=>{
 formRealTime.reset();
 const submitButton = formRealTime.querySelector(".btnEnviar");
-submitButton.innerText = "Enviar";
+submitButton.innerText = "Agregar";
 
 })
 
@@ -96,11 +99,22 @@ function renderTable (prod,container){
     
     const submitButton = form.querySelector(".btnEnviar");
     submitButton.innerText = "Actualizar";
+    submitButton.id = "btnActualizar";
+
+
 
 
     const btnLimpiar = document.getElementById("btnLimpiar");
 
     btnLimpiar.style.display = "inline-block";
+
+    btnLimpiar.addEventListener("click", function() {
+      
+      submitButton.removeAttribute("id");
+  });
+
+
+
   }
 
 
@@ -140,6 +154,23 @@ async function senDataApiProductDelete(id){
 }
 
 
-
+  async function sendDataApiProductEdit(formData,id) { 
+    const url = `/api/products/${id}`;
+    const formObj = Object.fromEntries(formData.entries()); 
+    const opciones = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formObj)
+    };
+    
+    try {
+      const respuesta = await fetch(url, opciones);
+      const datosRespuesta = await respuesta.json();
+      console.log(datosRespuesta);
+      
+    } catch (error) {
+      console.error(error);
+    }
+}
 
 

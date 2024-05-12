@@ -43,11 +43,12 @@ td {
 
 
 .formul{
-    width: 50%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  width: 174px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 30px;
     
    
 }
@@ -69,6 +70,13 @@ label{
 .chatBoxDiv{
   position: relative;
     right: 10rem;
+}
+
+.content-buttons-edit-product{
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: space-evenly;
 }
 
 .btnEnviar{
@@ -199,10 +207,40 @@ label{
 
   /*----LOGIN*/
 
+  .content-all-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 500px;
+  }
+
   .contentLogin{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 400px;
+    border: solid 1px;
+  }
+
+
+  .content-all-recu-pass{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 100%;
+  }
+
+
+
+  .content-recup-contrasena{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    border: solid 1px;
+    padding: 0 0 21px;
   }
 
   .loginForm{
@@ -225,5 +263,32 @@ label{
   .btnLoginGithub button{
     cursor: pointer;
     display: flex;
+    align-items: center;
+  }
+
+
+
+
+  /*-----Registro Form-----*/
+
+
+  .content-all-formregister{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .content-form-register{
+    width: 400px;
+    border: solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .registerForm{
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }

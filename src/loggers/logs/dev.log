@@ -53,3 +53,18 @@
 {"level":"error","message":"Cannot destructure property 'user' of 'req.user' as it is undefined."}
 {"level":"error","message":"Cannot read properties of undefined (reading '_id')"}
 {"level":"error","message":"Cannot read properties of undefined (reading '_id')"}
+{"code":"ENOTFOUND","hostname":"_mongodb._tcp.cluster39760ap.pxf6a45.mongodb.net","level":"error","syscall":"querySrv"}
+{"code":"ENOTFOUND","hostname":"_mongodb._tcp.cluster39760ap.pxf6a45.mongodb.net","level":"error","syscall":"querySrv"}
+{"code":"ENOTFOUND","hostname":"_mongodb._tcp.cluster39760ap.pxf6a45.mongodb.net","level":"error","syscall":"querySrv"}
+{"code":"ENOTFOUND","hostname":"_mongodb._tcp.cluster39760ap.pxf6a45.mongodb.net","level":"error","syscall":"querySrv"}
+{"level":"error","message":"Cast to ObjectId failed for value \"3\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
+{"level":"error","message":"error code se repite"}
+{"level":"error","message":"logger.warning is not a function"}
